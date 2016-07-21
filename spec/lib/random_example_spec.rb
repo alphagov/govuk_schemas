@@ -11,7 +11,7 @@ RSpec.describe GovukSchemas::RandomExample do
       next if file.match("message_queue")
 
       # TODO: we're unable to handle the specialist document schemas.
-      next if file.match("specialist_documents")
+      next if file.match("specialist_document")
 
       it "generates valid content for schema #{file}" do
         schema = JSON.parse(File.read(file))
