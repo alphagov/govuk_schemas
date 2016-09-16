@@ -1,7 +1,6 @@
 require "govuk_schemas/random"
 
 module GovukSchemas
-  # TODO: @private
   class RandomItemGenerator
     def initialize(schema:)
       @schema = schema

@@ -2,7 +2,7 @@
 
 Gem to work with the [GOV.UK Content Schemas](https://github.com/alphagov/govuk-content-schemas).
 
-## Usage
+## Installation
 
 The gem is currently unreleased:
 
@@ -10,27 +10,32 @@ The gem is currently unreleased:
 gem "govuk_schemas", github: "alphagov/govuk_schemas"
 ```
 
-Assuming you have [govuk-content-schemas](https://github.com/alphagov/govuk-content-schemas) cloned in a sibling directory:
+## Usage
+
+### Generating random content
+
+
+Generate a valid content item for the [frontend schema for detailed guides](...).
 
 ```ruby
-require "govuk_schemas"
-
-schema = GovukSchemas::Schema.find("detailed_guide", schema_type: "publisher")
-
-GovukSchemas::RandomExample.new(schema: schema).payload
+irb(main):001:0> GovukSchemas::RandomExample.for_frontend("detailed_guide").payload
+=> {"base_path"=>"/e42dd28e9ed96dc17626ac8b1b7b8511", "title"=>"dolor est...", "publishing_app"=>"elit"...}
 ```
 
-This will generate a valid content item for the `detailed_guide` `publisher_v2` schema:
+### Using it to guarantee valid data
 
 ```ruby
-{
-  document_type: "lorem_ipsum",
-  schema_name: "detailed_guide",
-  base_path: "/79ea302a2566ff90ef8b5ce0db079707",
-  title: "tristique ac finibus, non hendrerit, non turpis eu nibh nibh. massa ac sollicitudin mauris consectetur vel dolor volutpat ac aliquet. Lorem tristique dolor purus at elit. imperdiet ipsum Sed Ut ac Aenean interdum. ultricies pellentesque senectus Quisque sit Pellentesque libero. eu bibendum. Nam",
-  description: null,
-  # (rest omitted)
-}
+irb(main):001:0> random = GovukSchemas::RandomExample.for_frontend("detailed_guide")
+irb(main):002:0> random.merge_payload_with(base_path: "/foo")
+=> {"base_path"=>"/foo", "title"=>"dolor est...", "publishing_app"=>"elit"...}
+```
+
+Which will fail if the data you provide would generate an invalid content item.
+
+```ruby
+irb(main):001:0> random = GovukSchemas::RandomExample.for_frontend("detailed_guide")
+irb(main):002:0> random.merge_payload_with(base_path: nil)
+=> ERROR
 ```
 
 ## Running the test suite
