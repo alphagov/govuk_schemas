@@ -5,15 +5,13 @@ RSpec.describe GovukSchemas::RandomExample do
 
   describe '#payload' do
     GovukSchemas::Schema.all.each do |file_path, schema|
-      # TODO: we're unable to handle the specialist document schemas.
-      next if file_path.match("specialist_document")
+      # Specialist documents have complex schemas that are hard to generate
+      # content for. Same for the new message queue schema.
+      skipped = file_path.match("specialist_document") || file_path.match("message_queue")
 
-      # TODO: we're unable to handle the message_queue schemas.
-      next if file_path.match("message_queue")
-
-      it "generates valid content for schema #{file_path}" do
-        # This will raise an informative error if an invalid schema is generated.
+      it "generates valid content for schema #{file_path}", skip: skipped do
         ITERATIONS.times do
+          # This will raise an informative error if an invalid schema is generated.
           GovukSchemas::RandomExample.new(schema: schema).payload
         end
       end

@@ -1,5 +1,5 @@
 module GovukSchemas
-  # @private
+  # Semi-random generator of content
   module Random
     class << self
       WORDS = %w[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut suscipit at mauris non bibendum. Ut ac massa est. Aenean tempor imperdiet leo vel interdum. Nam sagittis cursus sem ultricies scelerisque. Quisque porttitor risus vel risus finibus, eu sollicitudin nisl aliquet. Sed sed lectus ac dolor molestie interdum. Nam molestie pellentesque purus ac vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse non tempor eros. Mauris eu orci hendrerit, volutpat lorem in, tristique libero. Duis a nibh nibh.]
