@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["GOV.UK Dev"]
   spec.email         = ["govuk-dev@digital.cabinet-office.gov.uk"]
 
-  spec.summary       = "Gem to work with the GOV.UK content schemas"
-  spec.description   = "Gem to work with the GOV.UK content schemas"
-  spec.homepage      = "https://github.com/alphagov/govuk_schemas"
+  spec.summary       = "Gem to generate test data based on GOV.UK content schemas"
+  spec.description   = "Gem to generate test data based on GOV.UK content schemas"
+  spec.homepage      = "https://github.com/alphagov/govuk_schemas_gem"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
