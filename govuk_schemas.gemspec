@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "json-schema"
+  # This should be kept in sync with the json-schema version of govuk-content-schemas.
+  spec.add_dependency "json-schema", "2.5.0"
   spec.add_dependency "activesupport"
 
   spec.add_development_dependency "rake", "~> 10.0"
