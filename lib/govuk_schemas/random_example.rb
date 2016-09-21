@@ -1,6 +1,5 @@
 require "govuk_schemas/random"
 require "govuk_schemas/random_item_generator"
-require "active_support/core_ext/hash"
 require "json-schema"
 require "json"
 
@@ -32,7 +31,7 @@ module GovukSchemas
 
     # TODO: add docs
     def merge_and_validate(hash)
-      item = payload.merge(hash.stringify_keys)
+      item = payload.merge(Utils.stringify_keys(hash))
       errors = validation_errors_for(item)
 
       if errors.any?
