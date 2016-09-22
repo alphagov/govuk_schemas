@@ -17,5 +17,10 @@ module GovukSchemas
         hash
       end
     end
+
+    # Return a random schema
+    def self.random_schema
+      all.values.sample
+    end
   end
 end
