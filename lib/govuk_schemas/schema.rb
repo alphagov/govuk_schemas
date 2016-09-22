@@ -11,16 +11,17 @@ module GovukSchemas
     end
 
     # Return all schemas in a hash, keyed by schema name
-    def self.all
-      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/**/*.json").reduce({}) do |hash, file_path|
+    def self.all(schema_type: '*')
+      schema_type = "publisher_v2" if schema_type == "publisher"
+      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*/#{schema_type}/*.json").reduce({}) do |hash, file_path|
         hash[file_path] = JSON.parse(File.read(file_path))
         hash
       end
     end
 
     # Return a random schema
-    def self.random_schema
-      all.values.sample
+    def self.random_schema(schema_type:)
+      all(schema_type: schema_type).values.sample
     end
   end
 end
