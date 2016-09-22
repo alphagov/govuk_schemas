@@ -20,7 +20,7 @@ RSpec.describe GovukSchemas::RandomExample do
 
   describe "#merge_and_validate" do
     it "returns the merged payload" do
-      schema = GovukSchemas::Schema.random_schema
+      schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 
       item = GovukSchemas::RandomExample.new(schema: schema).merge_and_validate(base_path: "/some-base-path")
 
@@ -28,7 +28,7 @@ RSpec.describe GovukSchemas::RandomExample do
     end
 
     it "raises if the resulting content item won't be valid" do
-      schema = GovukSchemas::Schema.random_schema
+      schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 
       expect {
         GovukSchemas::RandomExample.new(schema: schema).merge_and_validate(base_path: nil)
