@@ -5,9 +5,8 @@ RSpec.describe GovukSchemas::RandomExample do
 
   describe '#payload' do
     GovukSchemas::Schema.all.each do |file_path, schema|
-      # Specialist documents have complex schemas that are hard to generate
-      # content for. Same for the new message queue schema.
-      skipped = file_path.match("specialist_document") || file_path.match("message_queue")
+      # Specialist documents have complex schemas that are hard to generate content for.
+      skipped = file_path.match("specialist_document")
 
       it "generates valid content for schema #{file_path}", skip: skipped do
         ITERATIONS.times do
