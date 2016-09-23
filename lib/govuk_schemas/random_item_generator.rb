@@ -19,6 +19,13 @@ module GovukSchemas
   private
 
     def generate_value(props)
+      # TODO: #/definitions/nested_headers are recursively nested and can cause
+      # infinite loops. We need to add something that detects and prevents the
+      # loop. In the meantime return a valid value.
+      if props['$ref'] == "#/definitions/nested_headers"
+        return [{ "text" => "1", "level" => 1, "id" => "ABC" }]
+      end
+
       # JSON schemas can have "pointers". We use this to extract defintions and
       # reduce duplication. To make the schema easily parsable we inline the
       # reference here.
