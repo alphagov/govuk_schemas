@@ -7,6 +7,8 @@ module GovukSchemas
   # The "randomness" here is quote relative, it's particularly tailored to the
   # GOV.UK content schemas. For example, strings are limited to a couple of
   # hundred characters to keep the resulting items small.
+  #
+  # @private
   class RandomItemGenerator
     def initialize(schema:)
       @schema = schema

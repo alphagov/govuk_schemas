@@ -4,8 +4,10 @@ require "govuk_schemas/utils"
 require "govuk_schemas/random_example"
 
 module GovukSchemas
+  # @private
   CONTENT_SCHEMA_DIR = ENV["GOVUK_CONTENT_SCHEMAS_PATH"] || "../govuk-content-schemas"
 
+  # @private
   class InvalidContentGenerated < Exception
   end
 end
