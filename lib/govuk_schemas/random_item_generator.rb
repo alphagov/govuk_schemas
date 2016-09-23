@@ -39,9 +39,13 @@ module GovukSchemas
       type = Array(type).sample
 
       if props['anyOf']
-        # TODO: this should generate values for 1 or more values, instead of just one
         generate_value(props['anyOf'].sample)
       elsif props['oneOf']
+        # FIXME: Generating valid data for a `oneOf` schema is quite interesting.
+        # According to the JSON Schema spec a `oneOf` schema is only valid if
+        # the data is valid against *only one* of the clauses. To do this
+        # properly, we'd have to verify that the data generated below doesn't
+        # validate against the other schemas in `props['oneOf']`.
         generate_value(props['oneOf'].sample)
       elsif props['allOf']
         props['allOf'].each_with_object({}) do |subschema, hash|
