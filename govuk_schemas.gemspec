@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # This should be kept in sync with the json-schema version of govuk-content-schemas.
-  spec.add_dependency "json-schema", "2.5.0"
+  spec.add_dependency "json-schema", "~> 2.5.0"
 
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.4"
