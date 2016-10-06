@@ -28,6 +28,11 @@ module GovukSchemas
         "/" + rand(1..5).times.map { SecureRandom.uuid }.join('/')
       end
 
+      def govuk_campaign_url
+        subdomain = rand(1..5).times.map { ('a'..'z').to_a.sample(rand(1..5)).join }.join('.')
+        "https://#{subdomain}.campaign.gov.uk#{base_path}"
+      end
+
       def string(minimum_chars = nil, maximum_chars = nil)
         minimum_chars = minimum_chars || 0
         maximum_chars = maximum_chars || 100
@@ -60,6 +65,8 @@ module GovukSchemas
           Utils.parameterize(WORDS.sample(rand(1..10)).join('-'))
         when "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?$"
           base_path
+        when "^https://([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[A-Za-z0-9])?\\.)+campaign\\.gov\\.uk(/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?)?$"
+          govuk_campaign_url
         when '[a-z0-9\-_]'
           "#{SecureRandom.hex}-#{SecureRandom.hex}"
         else
