@@ -1,3 +1,8 @@
+# 1.0.0
+
+* Add regex for GOV.UK campaign URLs
+* Improve error messages
+
 # 0.2.0
 
 * Add a new regex for the new application validation in the schema
