@@ -98,11 +98,6 @@ Generated payload:
 --------------------------
 
 #{JSON.pretty_generate([item])}
-
-Schema:
---------------------------
-
-#{JSON.pretty_generate(@schema)}
 err
     end
 
