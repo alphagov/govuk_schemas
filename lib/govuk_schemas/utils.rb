@@ -10,7 +10,7 @@ module GovukSchemas
     end
 
     def self.parameterize(string)
-      string.gsub(/[^a-z0-9\-_]+/i, '-')
+      string.gsub(/[^a-z0-9\-_]+/i, '-').downcase
     end
   end
 end

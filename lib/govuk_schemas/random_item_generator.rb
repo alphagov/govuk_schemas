@@ -85,12 +85,29 @@ module GovukSchemas
     def generate_random_object(subschema)
       document = {}
 
+      if subschema['patternProperties']
+        subschema['patternProperties'].each do |attribute_name_regex, attribute_properties|
+          max = subschema['maxProperties'] || 5
+          rand(0..max).to_i.times do
+            attribute_name = Random.string_for_regex(attribute_name_regex)
+            document[attribute_name] = generate_value(attribute_properties)
+          end
+        end
+      end
+
       (subschema['properties'] || {}).each do |attribute_name, attribute_properties|
         # TODO: When the schema contains `subschema['minProperties']` we always
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
         if subschema['required'].to_a.include?(attribute_name) || subschema['minProperties'] || Random.bool
+
+          if attribute_name == "links"
+            @links_counter ||= 0
+            @links_counter = @links_counter + 1
+            next if @links_counter > 1
+          end
+
           document[attribute_name] = generate_value(attribute_properties)
         end
       end
