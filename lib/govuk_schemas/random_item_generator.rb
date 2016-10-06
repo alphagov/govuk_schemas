@@ -123,7 +123,7 @@ module GovukSchemas
     def lookup_json_pointer(ref)
       elements = ref.split('/')
       elements.shift
-      @schema.dig(*elements)
+      @schema.dig(*elements) || raise("Definition `#{ref}` not found in the schema")
     end
   end
 end
