@@ -47,6 +47,10 @@ module GovukSchemas
         "##{SecureRandom.hex}"
       end
 
+      def random_identifier(separator:)
+        Utils.parameterize(WORDS.sample(rand(1..10)).join('-')).gsub('-', separator)
+      end
+
       def string_for_regex(pattern)
         case pattern.to_s
         when '^(placeholder|placeholder_.+)$'
@@ -62,7 +66,9 @@ module GovukSchemas
         when "^#.+$"
           anchor
         when "[a-z-]"
-          Utils.parameterize(WORDS.sample(rand(1..10)).join('-'))
+          random_identifier(separator: '-')
+        when "^[a-z_]+$"
+          random_identifier(separator: '_')
         when "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?$"
           base_path
         when "^https://([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[A-Za-z0-9])?\\.)+campaign\\.gov\\.uk(/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?)?$"
