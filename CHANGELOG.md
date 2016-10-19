@@ -1,3 +1,5 @@
+* Add regex for lowercase-underscore strings
+
 # 1.0.0
 
 * Add regex for GOV.UK campaign URLs
