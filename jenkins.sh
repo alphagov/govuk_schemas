@@ -51,7 +51,7 @@ git clone git@github.com:alphagov/govuk-content-schemas.git /tmp/govuk-content-s
  cd /tmp/govuk-content-schemas
  git checkout ${SCHEMA_GIT_COMMIT:-"master"}
 )
-export GOVUK_CONTENT_SCHEMAS_PATH=/tmp/govuk-content-schemas
+export GOVUK_CONTENT_SCHEMAS_PATH=/tmp/govuk-content-schemas/dist
 
 # Bundle and run tests against multiple ruby versions
 for version in 2.3.1; do
