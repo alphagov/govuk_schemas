@@ -1,3 +1,5 @@
+# 2.0.0
+
 * Change GOVUK\_CONTENT\_SCHEMAS\_PATH to refer to the dist directory
 * Add regex for lowercase-underscore strings
 
