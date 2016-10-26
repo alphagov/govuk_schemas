@@ -6,7 +6,7 @@ module GovukSchemas
     # @param schema_type [String] The type: frontend, publisher, notification or links
     def self.find(schema_name, schema_type:)
       schema_type = "publisher_v2" if schema_type == "publisher"
-      file_path = "#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/#{schema_name}/#{schema_type}/schema.json"
+      file_path = "#{GovukSchemas::CONTENT_SCHEMA_DIR}/formats/#{schema_name}/#{schema_type}/schema.json"
       JSON.parse(File.read(file_path))
     end
 
@@ -15,7 +15,7 @@ module GovukSchemas
     # @param schema_type [String] The type: frontend, publisher, notification or links
     def self.all(schema_type: '*')
       schema_type = "publisher_v2" if schema_type == "publisher"
-      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*/#{schema_type}/*.json").reduce({}) do |hash, file_path|
+      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/formats/*/#{schema_type}/*.json").reduce({}) do |hash, file_path|
         hash[file_path] = JSON.parse(File.read(file_path))
         hash
       end
