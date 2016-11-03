@@ -2,18 +2,53 @@ require 'spec_helper'
 
 RSpec.describe GovukSchemas::Schema do
   describe '.find' do
-    it 'returns a schema by name' do
-      schema = GovukSchemas::Schema.find("detailed_guide", schema_type: "frontend")
+    subject { GovukSchemas::Schema.find(type) }
 
-      expect(schema).to be_a(Hash)
+    context "frontend_schema" do
+      let(:type) { { frontend_schema: "detailed_guide" } }
+      it 'returns a frontend schema by name' do
+        expect(subject).to be_a(Hash)
+      end
+    end
+  end
+
+  describe '.type_location' do
+    subject { GovukSchemas::Schema.type_location(schema) }
+
+    context "frontend_schema" do
+      let(:schema) { { frontend_schema: "detailed_guide" } }
+      it 'returns the location' do
+        expect(subject).to eq('detailed_guide/frontend/schema.json')
+      end
+    end
+
+    context "links_schema" do
+      let(:schema) { { links_schema: "detailed_guide" } }
+      it 'returns the location' do
+        expect(subject).to eq('detailed_guide/publisher_v2/links.json')
+      end
+    end
+
+    context "publisher_schema" do
+      let(:schema) { { publisher_schema: "detailed_guide" } }
+      it 'returns the location' do
+        expect(subject).to eq('detailed_guide/publisher_v2/schema.json')
+      end
+    end
+
+    context "notification_schema" do
+      let(:schema) { { notification_schema: "detailed_guide" } }
+      it 'returns the location' do
+        expect(subject).to eq('detailed_guide/notification/schema.json')
+      end
     end
   end
 
   describe '.all' do
-    it 'returns all GOV.UK schemas' do
-      schemas = GovukSchemas::Schema.all
+    subject { GovukSchemas::Schema.all }
 
-      expect(schemas).to be_a(Hash)
+    it 'returns all GOV.UK schemas' do
+      expect(subject).to be_a(Hash)
     end
   end
 end
