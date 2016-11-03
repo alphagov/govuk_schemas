@@ -117,7 +117,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_schema-class_method" title="for_schema (class method)">+ (GovukSchemas::RandomExample) <strong>for_schema</strong>(schema_name, schema_type:) </a>
+      <a href="#for_schema-class_method" title="for_schema (class method)">+ (GovukSchemas::RandomExample) <strong>for_schema</strong>(schema_key_value) </a>
     
 
     
@@ -306,7 +306,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="for_schema-class_method">
   
-    + (<tt><span class='object_link'><a href="" title="GovukSchemas::RandomExample (class)">GovukSchemas::RandomExample</a></span></tt>) <strong>for_schema</strong>(schema_name, schema_type:) 
+    + (<tt><span class='object_link'><a href="" title="GovukSchemas::RandomExample (class)">GovukSchemas::RandomExample</a></span></tt>) <strong>for_schema</strong>(schema_key_value) 
   
 
   
@@ -319,7 +319,7 @@
 
 <p>For example:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'>GovukSchemas</span><span class='op'>::</span><span class='const'>RandomExample</span><span class='period'>.</span><span class='id identifier rubyid_for_schema'>for_schema</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>detailed_guide</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>frontend</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'>GovukSchemas</span><span class='op'>::</span><span class='const'>RandomExample</span><span class='period'>.</span><span class='id identifier rubyid_for_schema'>for_schema</span><span class='lparen'>(</span><span class='label'>frontend_schema:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>detailed_guide</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span>
 <span class='comment'># =&gt; {&quot;base_path&quot;=&gt;&quot;/e42dd28e&quot;, &quot;title&quot;=&gt;&quot;dolor est...&quot;, &quot;publishing_app&quot;=&gt;&quot;elit&quot;...}
 </span></code></pre>
@@ -328,7 +328,22 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>schema_key_value</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -349,16 +364,16 @@
       <pre class="lines">
 
 
-31
 32
 33
-34</pre>
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 32</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_for_schema'>for_schema</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='comma'>,</span> <span class='label'>schema_type:</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='const'>GovukSchemas</span><span class='op'>::</span><span class='const'>Schema</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='comma'>,</span> <span class='label'>schema_type:</span> <span class='id identifier rubyid_schema_type'>schema_type</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_for_schema'>for_schema</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_key_value'>schema_key_value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='const'>GovukSchemas</span><span class='op'>::</span><span class='const'>Schema</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_key_value'>schema_key_value</span><span class='rparen'>)</span>
   <span class='const'>GovukSchemas</span><span class='op'>::</span><span class='const'>RandomExample</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>schema:</span> <span class='id identifier rubyid_schema'>schema</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -457,7 +472,6 @@ isn&#39;t valid against the schema an error will be raised.</p>
       <pre class="lines">
 
 
-67
 68
 69
 70
@@ -466,17 +480,18 @@ isn&#39;t valid against the schema an error will be raised.</p>
 73
 74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge_and_validate'>merge_and_validate</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_item'>item</span> <span class='op'>=</span> <span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_stringify_keys'>stringify_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='id identifier rubyid_validation_errors_for'>validation_errors_for</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>InvalidContentGenerated</span><span class='comma'>,</span> <span class='id identifier rubyid_error_message_custom'>error_message_custom</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='id identifier rubyid_errors'>errors</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>InvalidContentGenerated</span><span class='comma'>,</span> <span class='id identifier rubyid_error_message_custom'>error_message_custom</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_errors'>errors</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_item'>item</span>
@@ -536,7 +551,6 @@ isn&#39;t valid against the schema an error will be raised.</p>
       <pre class="lines">
 
 
-44
 45
 46
 47
@@ -545,10 +559,11 @@ isn&#39;t valid against the schema an error will be raised.</p>
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/govuk_schemas/random_example.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload'>payload</span>
   <span class='id identifier rubyid_item'>item</span> <span class='op'>=</span> <span class='ivar'>@random_generator</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span>
@@ -570,7 +585,7 @@ isn&#39;t valid against the schema an error will be raised.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Sep 23 14:26:38 2016 by
+  Generated on Thu Nov  3 17:31:15 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.1).
 </div>

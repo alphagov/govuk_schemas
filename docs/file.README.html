@@ -74,6 +74,20 @@ href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>govuk_schemas</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~&gt; VERSION</span><span class='tstring_end'>&quot;</span></span>
 </code></pre>
 
+<h2 id="label-Limitations">Limitations</h2>
+<ul><li>
+<p>The gem doesn&#39;t support <code>patternProperties</code> yet. On GOV.UK
+we <a
+href="https://github.com/alphagov/govuk-content-schemas/blob/bdd97d18c7a9318e66f332f0748a410fddab1141/formats/frontend_links_definition.json#L67-L71">use
+this in the expanded frontend links</a>.</p>
+</li><li>
+<p>It&#39;s complicated to generate random data for <code>oneOf</code>
+properties. According to the JSON Schema spec a <code>oneOf</code> schema
+is only valid if the data is valid against <em>only one</em> of the
+clauses. To do this properly, we&#39;d have to make sure that the data
+generated below doesn&#39;t validate against the other schemas properties.</p>
+</li></ul>
+
 <h2 id="label-Usage">Usage</h2>
 
 <p><a href="https://alphagov.github.io/govuk_schemas_gem/frames.html">Read the
@@ -111,7 +125,7 @@ href="LICENSE.md">MIT License</a>.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Sep 23 14:26:37 2016 by
+  Generated on Thu Nov  3 17:31:15 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.1).
 </div>
