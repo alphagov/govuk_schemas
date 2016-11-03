@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe GovukSchemas::RandomExample do
+  describe '.for_schema' do
+    it 'returns a random example for a schema' do
+      example = GovukSchemas::RandomExample.for_schema(frontend_schema: "placeholder")
+
+      expect(example).to be_a(GovukSchemas::RandomExample)
+    end
+  end
+
   describe '#payload' do
     GovukSchemas::Schema.all.each do |file_path, schema|
       it "generates valid content for schema #{file_path}" do

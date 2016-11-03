@@ -2,45 +2,20 @@ require 'spec_helper'
 
 RSpec.describe GovukSchemas::Schema do
   describe '.find' do
-    subject { GovukSchemas::Schema.find(type) }
-
-    context "frontend_schema" do
-      let(:type) { { frontend_schema: "detailed_guide" } }
-      it 'returns a frontend schema by name' do
-        expect(subject).to be_a(Hash)
-      end
-    end
-  end
-
-  describe '.type_location' do
-    subject { GovukSchemas::Schema.type_location(schema) }
-
-    context "frontend_schema" do
-      let(:schema) { { frontend_schema: "detailed_guide" } }
-      it 'returns the location' do
-        expect(subject).to eq('detailed_guide/frontend/schema.json')
-      end
+    it 'returns a frontend schema by name' do
+      expect(GovukSchemas::Schema.find(frontend_schema: "detailed_guide")).to be_a(Hash)
     end
 
-    context "links_schema" do
-      let(:schema) { { links_schema: "detailed_guide" } }
-      it 'returns the location' do
-        expect(subject).to eq('detailed_guide/publisher_v2/links.json')
-      end
+    it 'returns a links schema schema by name' do
+      expect(GovukSchemas::Schema.find(links_schema: "detailed_guide")).to be_a(Hash)
     end
 
-    context "publisher_schema" do
-      let(:schema) { { publisher_schema: "detailed_guide" } }
-      it 'returns the location' do
-        expect(subject).to eq('detailed_guide/publisher_v2/schema.json')
-      end
+    it 'returns a publisher schema schema by name' do
+      expect(GovukSchemas::Schema.find(publisher_schema: "detailed_guide")).to be_a(Hash)
     end
 
-    context "notification_schema" do
-      let(:schema) { { notification_schema: "detailed_guide" } }
-      it 'returns the location' do
-        expect(subject).to eq('detailed_guide/notification/schema.json')
-      end
+    it 'returns a notification schema schema by name' do
+      expect(GovukSchemas::Schema.find(notification_schema: "detailed_guide")).to be_a(Hash)
     end
   end
 

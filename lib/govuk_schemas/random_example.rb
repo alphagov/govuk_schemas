@@ -23,13 +23,14 @@ module GovukSchemas
     #
     # For example:
     #
-    #     generator = GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend")
+    #     generator = GovukSchemas::RandomExample.for_schema(frontend_schema: "detailed_guide")
     #     generator.payload
     #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
     #
+    # @param schema_key_value [Hash]
     # @return [GovukSchemas::RandomExample]
-    def self.for_schema(schema_name, schema_type:)
-      schema = GovukSchemas::Schema.find(schema_name, schema_type: schema_type)
+    def self.for_schema(schema_key_value)
+      schema = GovukSchemas::Schema.find(schema_key_value)
       GovukSchemas::RandomExample.new(schema: schema)
     end
 
