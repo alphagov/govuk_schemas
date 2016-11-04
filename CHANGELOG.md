@@ -1,3 +1,6 @@
+# 2.0.0
+
+* Change GovukSchemas::Schema.find to take { links_schema: 'detailded_guide' }
 * Add regex for lowercase-underscore strings
 
 # 1.0.0
