@@ -1,0 +1,28 @@
+<% all.each do |o| %>
+## `<%= o.to_s %>`
+
+<% o.meths(inherited: false, included: false).each do |meth| %>
+<% next unless meth.visibility == :public %>
+### <%= meth.to_s %>
+
+<%= meth.base_docstring %>
+
+**Params**:
+<% meth.tags(:param).each do |tag| %>
+- `<%= tag.name %>` (`<%= tag.types.join(', ') %>`) — <%= tag.text %>
+<% end %>
+
+**Returns**:
+<% meth.tags(:return).each do |tag| %>
+- (`<%= tag.types.join(', ') %>`) — <%= tag.text %>
+<% end %>
+
+Examples:
+<% meth.tags(:example).each do |tag| %>
+```ruby<%= tag.text %>```
+<% end %>
+
+[View on GitHub](<%= website_base + meth.files.first[0] + '#L' + meth.files.first[1].to_s %>)
+
+<% end %>
+<% end %>

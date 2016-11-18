@@ -7,7 +7,7 @@ module GovukSchemas
   class RandomExample
     # Returns a new `GovukSchemas::RandomExample` object.
     #
-    # For example:
+    # @example
     #
     #     schema = GovukSchemas::Schema.find("detailed_guide", schema_type: "frontend")
     #     GovukSchemas::RandomExample.new(schema).payload
@@ -21,7 +21,7 @@ module GovukSchemas
 
     # Returns a new `GovukSchemas::RandomExample` object.
     #
-    # For example:
+    # @example
     #
     #     generator = GovukSchemas::RandomExample.for_schema(frontend_schema: "detailed_guide")
     #     generator.payload
@@ -36,7 +36,7 @@ module GovukSchemas
 
     # Return a hash with a random content item
     #
-    # Example:
+    # @example
     #
     #     GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend").payload
     #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
@@ -56,7 +56,7 @@ module GovukSchemas
     # Return a content item merged with a hash. If the resulting content item
     # isn't valid against the schema an error will be raised.
     #
-    # Example:
+    # @example
     #
     #      random = GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend")
     #      random.merge_and_validate(base_path: "/foo")
