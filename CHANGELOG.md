@@ -1,3 +1,5 @@
+* Add `Schema.schema_names` to return all schema names
+
 # 2.0.0
 
 * Change GovukSchemas::Schema.find to take { links_schema: 'detailded_guide' }
