@@ -65,15 +65,25 @@ module GovukSchemas
     # @param [Hash] hash The hash to merge the random content with
     # @return [Hash] A content item
     # @raise [GovukSchemas::InvalidContentGenerated]
-    def merge_and_validate(hash)
-      item = payload.merge(Utils.stringify_keys(hash))
-      errors = validation_errors_for(item)
+    def merge_and_validate(user_defined_values)
+      random_payload = @random_generator.payload
+      item_merged_with_user_input = random_payload.merge(Utils.stringify_keys(user_defined_values))
 
+      errors = validation_errors_for(item_merged_with_user_input)
       if errors.any?
-        raise InvalidContentGenerated, error_message_custom(item, hash, errors)
+
+        errors_on_random_payload = validation_errors_for(random_payload)
+        if errors_on_random_payload.any?
+          # The original item was invalid when it was generated, so it's not
+          # the users fault.
+          raise InvalidContentGenerated, error_message(random_payload, errors)
+        else
+          # The random item was valid, but it was merged with something invalid.
+          raise InvalidContentGenerated, error_message_custom(item_merged_with_user_input, user_defined_values, errors)
+        end
       end
 
-      item
+      item_merged_with_user_input
     end
 
   private
