@@ -35,6 +35,15 @@ module GovukSchemas
       all(schema_type: schema_type).values.sample
     end
 
+    # Return all schema names
+    #
+    # @return [Array] all the schema names
+    def self.schema_names
+      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*").map do |directory|
+        File.basename(directory)
+      end
+    end
+
     # @private
     def self.location_for_schema_name(schema)
       type, schema_name = schema.to_a.flatten
