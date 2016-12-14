@@ -1,4 +1,7 @@
+# 2.1.0
+
 * Add `Schema.schema_names` to return all schema names
+* Add functionality to work with examples
 
 # 2.0.0
 
