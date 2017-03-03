@@ -37,10 +37,6 @@ To rebuild the documentation, run:
 
     $ bundle exec rake yard
 
-## Releasing the gem
-
-This gem uses [gem_publisher](https://github.com/alphagov/gem_publisher). Updating the [version](lib/govuk_schemas/version.rb) will automatically release a new version to Rubygems.
-
 ## License
 
 The gem is available as open source under the terms of the [MIT License](LICENSE.md).
