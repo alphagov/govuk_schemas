@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module GovukSchemas
   # @private
   module Random
