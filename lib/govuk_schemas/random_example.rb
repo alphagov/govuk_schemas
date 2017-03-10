@@ -9,8 +9,8 @@ module GovukSchemas
     #
     # For example:
     #
-    #     schema = GovukSchemas::Schema.find("detailed_guide", schema_type: "frontend")
-    #     GovukSchemas::RandomExample.new(schema).payload
+    #     schema = GovukSchemas::Schema.find(frontend_schema: "detailed_guide")
+    #     GovukSchemas::RandomExample.new(schema: schema).payload
     #
     # @param [Hash] schema A JSON schema.
     # @return [GovukSchemas::RandomExample]
