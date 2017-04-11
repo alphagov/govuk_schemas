@@ -1,3 +1,7 @@
+# 2.1.1
+
+* Support for a new regex in GOV.UK content schemas
+
 # 2.1.0
 
 * Add `Schema.schema_names` to return all schema names
