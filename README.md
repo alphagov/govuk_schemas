@@ -17,7 +17,7 @@ gem "govuk_schemas", "~> VERSION"
 
 ## Usage
 
-[Read the documentation!](https://alphagov.github.io/govuk_schemas_gem/frames.html)
+[Read the documentation!](https://alphagov.github.io/govuk_schemas/frames.html)
 
 ## Running the test suite
 
