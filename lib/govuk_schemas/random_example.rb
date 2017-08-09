@@ -34,41 +34,23 @@ module GovukSchemas
       GovukSchemas::RandomExample.new(schema: schema)
     end
 
-    # Return a hash with a random content item
-    #
-    # Example:
-    #
-    #     GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend").payload
-    #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
-    #
-    # @return [Hash] A content item
-    def payload
-      item = @random_generator.payload
-      errors = validation_errors_for(item)
-
-      if errors.any?
-        raise InvalidContentGenerated, error_message(item, errors)
-      end
-
-      item
-    end
-
-    # Return a content item merged with a hash. If the resulting content item
-    # isn't valid against the schema an error will be raised.
+    # Return a content item merged with a hash and with the excluded fields removed.
+    # If the resulting content item isn't valid against the schema an error will be raised.
     #
     # Example:
     #
     #      random = GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend")
-    #      random.merge_and_validate(base_path: "/foo")
+    #      random.customise_and_validate({base_path: "/foo"}, ["withdrawn_notice"])
     #      # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
     #
     # @param [Hash] hash The hash to merge the random content with
+    # @param [Array] array The array containing fields to exclude
     # @return [Hash] A content item
     # @raise [GovukSchemas::InvalidContentGenerated]
-    def merge_and_validate(user_defined_values)
+    def customise_and_validate(user_defined_values = {}, fields_to_exclude = [])
       random_payload = @random_generator.payload
       item_merged_with_user_input = random_payload.merge(Utils.stringify_keys(user_defined_values))
-
+      item_merged_with_user_input.reject! { |k| fields_to_exclude.include?(k) }
       errors = validation_errors_for(item_merged_with_user_input)
       if errors.any?
 
@@ -85,6 +67,18 @@ module GovukSchemas
 
       item_merged_with_user_input
     end
+
+    # Return a hash with a random content item
+    #
+    # Example:
+    #
+    #     GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend").payload
+    #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
+    #
+    # @return [Hash] A content item
+    # Support backwards compatibility
+    alias :payload :customise_and_validate
+    alias :merge_and_validate :customise_and_validate
 
   private
 
