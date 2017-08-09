@@ -1,6 +1,7 @@
-# Unreleased
+# 2.2.0
 
 * Add RSpec test helpers
+* Add `customise_and_validate` to bring the functionality to remove fields from a payload which has been generated as a random example
 
 # 2.1.1
 
