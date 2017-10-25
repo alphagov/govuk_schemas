@@ -21,64 +21,63 @@ module GovukSchemas
 
     # Returns a new `GovukSchemas::RandomExample` object.
     #
-    # For example:
+    # Example without block:
     #
-    #     generator = GovukSchemas::RandomExample.for_schema(frontend_schema: "detailed_guide")
-    #     generator.payload
-    #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
+    #      GovukSchemas::RandomExample.for_schema(frontend_schema: "detailed_guide")
+    #      # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
+    #
+    # Example with block:
+    #
+    #      GovukSchemas::RandomExample.for_schema(frontend_schema: "detailed_guide") do |payload|
+    #        payload.merge('base_path' => "Test base path")
+    #      end
+    #      # => {"base_path"=>"Test base path", "title"=>"dolor est...", "publishing_app"=>"elit"...}
     #
     # @param schema_key_value [Hash]
+    # @param [Block] the base payload is passed inton the block, with the block result then becoming
+    #   the new payload. The new payload is then validated. (optional)
     # @return [GovukSchemas::RandomExample]
-    def self.for_schema(schema_key_value)
+    # @param [Block] the base payload is passed inton the block, with the block result then becoming
+    #   the new payload. The new payload is then validated. (optional)
+    def self.for_schema(schema_key_value, &block)
       schema = GovukSchemas::Schema.find(schema_key_value)
-      GovukSchemas::RandomExample.new(schema: schema)
+      GovukSchemas::RandomExample.new(schema: schema).payload(&block)
     end
 
     # Return a content item merged with a hash and with the excluded fields removed.
     # If the resulting content item isn't valid against the schema an error will be raised.
     #
-    # Example:
+    # Example without block:
     #
-    #      random = GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend")
-    #      random.customise_and_validate({base_path: "/foo"}, ["withdrawn_notice"])
+    #      generator.payload
     #      # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
     #
-    # @param [Hash] hash The hash to merge the random content with
-    # @param [Array] array The array containing fields to exclude
+    # Example with block:
+    #
+    #      generator.payload do |payload|
+    #        payload.merge('base_path' => "Test base path")
+    #      end
+    #      # => {"base_path"=>"Test base path", "title"=>"dolor est...", "publishing_app"=>"elit"...}
+    #
+    # @param [Block] the base payload is passed inton the block, with the block result then becoming
+    #   the new payload. The new payload is then validated. (optional)
     # @return [Hash] A content item
     # @raise [GovukSchemas::InvalidContentGenerated]
-    def customise_and_validate(user_defined_values = {}, fields_to_exclude = [])
-      random_payload = @random_generator.payload
-      item_merged_with_user_input = random_payload.merge(Utils.stringify_keys(user_defined_values))
-      item_merged_with_user_input.reject! { |k| fields_to_exclude.include?(k) }
-      errors = validation_errors_for(item_merged_with_user_input)
-      if errors.any?
+    def payload
+      payload = @random_generator.payload
+      # ensure the base payload is valid
+      errors = validation_errors_for(payload)
+      raise InvalidContentGenerated, error_message(payload, errors) if errors.any?
 
-        errors_on_random_payload = validation_errors_for(random_payload)
-        if errors_on_random_payload.any?
-          # The original item was invalid when it was generated, so it's not
-          # the users fault.
-          raise InvalidContentGenerated, error_message(random_payload, errors)
-        else
-          # The random item was valid, but it was merged with something invalid.
-          raise InvalidContentGenerated, error_message_custom(item_merged_with_user_input, user_defined_values, errors)
-        end
+      if block_given?
+        payload = yield(payload)
+        # check the payload again after customisation
+        errors = validation_errors_for(payload)
+        raise InvalidContentGenerated, error_message(payload, errors, true) if errors.any?
       end
 
-      item_merged_with_user_input
+      payload
     end
-
-    # Return a hash with a random content item
-    #
-    # Example:
-    #
-    #     GovukSchemas::RandomExample.for_schema("detailed_guide", schema_type: "frontend").payload
-    #     # => {"base_path"=>"/e42dd28e", "title"=>"dolor est...", "publishing_app"=>"elit"...}
-    #
-    # @return [Hash] A content item
-    # Support backwards compatibility
-    alias :payload :customise_and_validate
-    alias :merge_and_validate :customise_and_validate
 
   private
 
@@ -86,47 +85,37 @@ module GovukSchemas
       JSON::Validator.fully_validate(@schema, item, errors_as_objects: true)
     end
 
-    def error_message(item, errors)
-      <<err
-An invalid content item was generated.
+    def error_message(item, errors, customised = false)
+      details = <<~ERR
+        Validation errors:
+        --------------------------
 
-This probably means there's a bug in the generator that causes it to output
-invalid values. Below you'll find the generated payload, the validation errors
-and the schema that was used.
+        #{JSON.pretty_generate(errors)}
 
-Validation errors:
---------------------------
+        Generated payload:
+        --------------------------
 
-#{JSON.pretty_generate(errors)}
+        #{JSON.pretty_generate([item])}
+      ERR
 
-Generated payload:
---------------------------
+      if customised
+        <<~ERR
+          The content item you are trying to generate is invalid against the schema.
+          The item was valid before being customised.
 
-#{JSON.pretty_generate([item])}
-err
-    end
+          #{details}
+        ERR
+      else
+        <<~ERR
+          An invalid content item was generated.
 
-    def error_message_custom(item, custom_values, errors)
-      error_messages = errors.map { |e| "- #{e[:message]}\n" }.join
+          This probably means there's a bug in the generator that causes it to output
+          invalid values. Below you'll find the generated payload, the validation errors
+          and the schema that was used.
 
-      <<err
-The content item you are trying to generate is invalid against the schema.
-
-Validation errors:
---------------------------
-
-#{error_messages}
-
-Custom values provided:
---------------------------
-
-#{JSON.pretty_generate(custom_values)}
-
-Generated payload:
---------------------------
-
-#{JSON.pretty_generate([item])}
-err
+          #{details}
+        ERR
+      end
     end
   end
 end
