@@ -17,7 +17,7 @@ gem "govuk_schemas", "~> VERSION"
 
 ## Usage
 
-[Read the documentation!](https://alphagov.github.io/govuk_schemas/frames.html)
+[Read the documentation!](http://www.rubydoc.info/github/alphagov/govuk_schemas)
 
 ## Running the test suite
 
@@ -32,10 +32,6 @@ bundle exec rake
 To run a Yard server locally to preview documentation, run:
 
     $ bundle exec yard server --reload
-
-To rebuild the documentation, run:
-
-    $ bundle exec rake yard
 
 ## License
 
