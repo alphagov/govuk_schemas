@@ -4,6 +4,18 @@ require "json-schema"
 require "json"
 
 module GovukSchemas
+  # Generate random content based on a schema.
+  #
+  # ## Limitations
+  #
+  # - The gem doesn't support `patternProperties` yet. On GOV.UK we [use this in
+  # the expanded frontend
+  # links](https://github.com/alphagov/govuk-content-schemas/blob/bdd97d18c7a9318e66f332f0748a410fddab1141/formats/frontend_links_definition.json#L67-L71).
+  # - It's complicated to generate random data for `oneOf` properties. According
+  # to the JSON Schema spec a `oneOf` schema is only valid if the data is valid
+  # against *only one* of the clauses. To do this properly, we'd have to make
+  # sure that the data generated below doesn't validate against the other
+  # schemas properties.
   class RandomExample
     # Returns a new `GovukSchemas::RandomExample` object.
     #

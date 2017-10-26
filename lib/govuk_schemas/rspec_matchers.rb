@@ -25,6 +25,7 @@ module GovukSchemas
     end
   end
 
+  # @private
   class ValidationErrorMessage
     attr_reader :schema_name, :type, :payload
 
