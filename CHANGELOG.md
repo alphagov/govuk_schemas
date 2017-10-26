@@ -1,3 +1,7 @@
+# 3.0.0
+
+* Move to block based customisation of randomly generated payloads. This removes the existing methods: `customise_and_validate` and `merge_and_validate`. In additon `GovukSchemas::RandomExample.for_schema(schema)` now returns the payload hash directly.
+
 # 2.3.0
 
 * Allow looking up examples to work with schemas stored in `formats/{format}/{schema_type}/examples/` and `examples/{format}/{schema_type}/` to allow schema examples to move.
