@@ -99,15 +99,15 @@ module GovukSchemas
 
     def error_message(item, errors, customised = false)
       details = <<~ERR
-        Validation errors:
-        --------------------------
-
-        #{JSON.pretty_generate(errors)}
-
         Generated payload:
         --------------------------
 
         #{JSON.pretty_generate([item])}
+
+        Validation errors:
+        --------------------------
+
+        #{JSON.pretty_generate(errors)}
       ERR
 
       if customised
