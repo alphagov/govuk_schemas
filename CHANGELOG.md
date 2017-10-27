@@ -1,3 +1,7 @@
+# 3.0.1
+
+# change order of output when validation errors occur during random example generation
+
 # 3.0.0
 
 * Move to block based customisation of randomly generated payloads. This removes the existing methods: `customise_and_validate` and `merge_and_validate`. In additon `GovukSchemas::RandomExample.for_schema(schema)` now returns the payload hash directly.
