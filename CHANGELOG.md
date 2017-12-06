@@ -1,3 +1,7 @@
+# Unreleased
+
+* Update json-schema dependency
+
 # 3.0.1
 
 * change order of output when validation errors occur during random example generation
