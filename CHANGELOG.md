@@ -1,4 +1,4 @@
-# Unreleased
+# 3.1.0
 
 * Update json-schema dependency
 
