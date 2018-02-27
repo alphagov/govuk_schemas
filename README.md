@@ -12,7 +12,7 @@ gem "govuk_schemas", "~> VERSION"
 
 ## Usage
 
-[Read the documentation!](http://www.rubydoc.info/github/alphagov/govuk_schemas)
+[Read the documentation!](http://www.rubydoc.info/gems/govuk_schemas)
 
 ## Running the test suite
 
