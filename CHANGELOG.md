@@ -1,3 +1,5 @@
+# 3.2.0
+
 * Add `GovukSchemas::DocumentTypes.valid_document_types` (PR #48)
 
 # 3.1.0
