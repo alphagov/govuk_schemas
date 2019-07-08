@@ -1,3 +1,7 @@
+# Unreleased
+
+* Support generating objects with an `oneOf` property.
+
 # 3.2.0
 
 * Add `GovukSchemas::DocumentTypes.valid_document_types` (PR #48)
