@@ -49,7 +49,7 @@ module GovukSchemas
 
       if props['anyOf']
         generate_value(props['anyOf'].sample)
-      elsif props['oneOf']
+      elsif props['oneOf'] && type != 'object'
         # FIXME: Generating valid data for a `oneOf` schema is quite interesting.
         # According to the JSON Schema spec a `oneOf` schema is only valid if
         # the data is valid against *only one* of the clauses. To do this
@@ -85,13 +85,26 @@ module GovukSchemas
     def generate_random_object(subschema)
       document = {}
 
+      one_of_sample = subschema.fetch('oneOf', []).sample || {}
+
       (subschema['properties'] || {}).each do |attribute_name, attribute_properties|
         # TODO: When the schema contains `subschema['minProperties']` we always
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
-        if subschema['required'].to_a.include?(attribute_name) || subschema['minProperties'] || Random.bool
-          document[attribute_name] = generate_value(attribute_properties)
+        should_generate_value = Random.bool \
+          || subschema['required'].to_a.include?(attribute_name) \
+          || (one_of_sample['required'] || {}).to_a.include?(attribute_name) \
+          || (one_of_sample['properties'] || {}).keys.include?(attribute_name) \
+          || subschema['minProperties'] \
+
+        if should_generate_value
+          one_of_properties = (one_of_sample['properties'] || {})[attribute_name]
+          document[attribute_name] = if one_of_properties
+                                       generate_value(one_of_properties)
+                                     else
+                                       generate_value(attribute_properties)
+                                     end
         end
       end
 
