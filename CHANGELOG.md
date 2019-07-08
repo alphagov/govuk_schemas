@@ -1,4 +1,4 @@
-# Unreleased
+# 3.3.0
 
 * Support generating objects with an `oneOf` property.
 
