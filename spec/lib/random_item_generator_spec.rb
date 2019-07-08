@@ -63,5 +63,34 @@ RSpec.describe GovukSchemas::RandomItemGenerator do
 
       expect(generator.payload.keys).to include('my_field')
     end
+
+    it 'handles required properties in oneOf' do
+      schema = {
+        "type" => "object",
+        "properties" => {
+          "my_enum" => {
+            "enum" => %w(a b)
+          },
+          "my_field" => {
+            "type" => "string"
+          },
+        },
+        "oneOf" => [
+          {
+            "properties" => {
+              "my_enum" => {
+                "enum" => %w(a)
+              }
+            },
+            "required" => %w(my_field)
+          }
+        ]
+      }
+
+      generator = GovukSchemas::RandomItemGenerator.new(schema: schema)
+
+      expect(generator.payload['my_enum']).to eq('a')
+      expect(generator.payload.keys).to include('my_field')
+    end
   end
 end
