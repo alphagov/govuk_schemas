@@ -1,3 +1,10 @@
+# Unreleased
+
+* Change RSpec::Matchers, rename `be_valid_against_schema` to
+  `be_valid_against_publisher_schema` and add
+  `be_valid_against_frontend_schema` plus
+  `be_valid_against_notification_schema`.
+
 # 3.3.0
 
 * Support generating objects with an `oneOf` property.
