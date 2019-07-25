@@ -1,26 +1,16 @@
 module GovukSchemas
   module RSpecMatchers
-    RSpec::Matchers.define :be_valid_against_schema do |schema_name|
-      match do |item|
-        schema = Schema.find(publisher_schema: schema_name)
-        validator = JSON::Validator.fully_validate(schema, item)
-        validator.empty?
-      end
+    %w[links frontend publisher notification].each do |schema_type|
+      RSpec::Matchers.define "be_valid_against_#{schema_type}_schema".to_sym do |schema_name|
+        match do |item|
+          schema = Schema.find(Hash["#{schema_type}_schema".to_sym, schema_name])
+          validator = JSON::Validator.fully_validate(schema, item)
+          validator.empty?
+        end
 
-      failure_message do |actual|
-        ValidationErrorMessage.new(schema_name, "schema", actual).message
-      end
-    end
-
-    RSpec::Matchers.define :be_valid_against_links_schema do |schema_name|
-      match do |item|
-        schema = Schema.find(links_schema: schema_name)
-        validator = JSON::Validator.fully_validate(schema, item)
-        validator.empty?
-      end
-
-      failure_message do |actual|
-        ValidationErrorMessage.new(schema_name, "links", actual).message
+        failure_message do |actual|
+          ValidationErrorMessage.new(schema_name, "schema", actual).message
+        end
       end
     end
   end
