@@ -1,4 +1,4 @@
-# Unreleased
+# 4.0.0
 
 * Change RSpec::Matchers, rename `be_valid_against_schema` to
   `be_valid_against_publisher_schema` and add
