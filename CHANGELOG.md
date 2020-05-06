@@ -1,3 +1,7 @@
+# 4.0.1
+
+* Bump the required Ruby version to >= 2.6.x.
+
 # 4.0.0
 
 * Change RSpec::Matchers, rename `be_valid_against_schema` to
