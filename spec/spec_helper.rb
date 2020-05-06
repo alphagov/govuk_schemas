@@ -1,5 +1,5 @@
-require 'govuk_schemas'
-require 'pry-byebug'
+require "govuk_schemas"
+require "pry-byebug"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -16,7 +16,7 @@ RSpec.configure do |config|
   config.warnings = true
 
   if config.files_to_run.one?
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   end
 
   config.order = :random

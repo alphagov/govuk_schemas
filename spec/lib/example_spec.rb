@@ -1,7 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe GovukSchemas::Example do
-  describe '.find_all' do
+  describe ".find_all" do
     it "returns all the examples" do
       examples = GovukSchemas::Example.find_all("specialist_document")
 
@@ -10,7 +10,7 @@ RSpec.describe GovukSchemas::Example do
     end
   end
 
-  describe '.find' do
+  describe ".find" do
     it "returns one example" do
       example_content_item = GovukSchemas::Example.find("specialist_document", example_name: "drug-safety-update")
 

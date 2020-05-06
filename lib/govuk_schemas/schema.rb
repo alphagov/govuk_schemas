@@ -19,11 +19,10 @@ module GovukSchemas
     #
     # @param schema_type [String] The type: frontend, publisher, notification or links
     # @return [Array<Hash>] List of JSON schemas as hashes
-    def self.all(schema_type: '*')
+    def self.all(schema_type: "*")
       schema_type = "publisher_v2" if schema_type == "publisher"
-      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*/#{schema_type}/*.json").reduce({}) do |hash, file_path|
+      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*/#{schema_type}/*.json").each_with_object({}) do |file_path, hash|
         hash[file_path] = JSON.parse(File.read(file_path))
-        hash
       end
     end
 
