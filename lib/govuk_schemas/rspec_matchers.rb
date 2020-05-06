@@ -26,14 +26,14 @@ module GovukSchemas
     end
 
     def message
-      <<~doc
+      <<~DOC
         expected the payload to be valid against the '#{schema_name}' schema:
 
         #{formatted_payload}
 
         Validation errors:
         #{errors}
-      doc
+      DOC
     end
 
   private

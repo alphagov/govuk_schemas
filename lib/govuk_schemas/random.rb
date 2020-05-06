@@ -82,7 +82,7 @@ module GovukSchemas
         when '[a-z0-9\-_]'
           "#{SecureRandom.hex}-#{SecureRandom.hex}"
         else
-          raise <<-doc
+          raise <<-DOC
             Don't know how to generate random string for pattern #{pattern.inspect}
 
             This propably means you've introduced a new regex in  govuk-content-schemas.
@@ -93,7 +93,7 @@ module GovukSchemas
             To fix this:
 
             - Add your regex to `lib/govuk_schemas/random.rb`
-          doc
+          DOC
         end
       end
     end
