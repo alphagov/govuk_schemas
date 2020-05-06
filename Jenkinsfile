@@ -26,7 +26,7 @@ node {
     }
 
     stage('Linter') {
-      govuk.rubyLinter()
+      govuk.lintRuby()
     }
 
     stage('Tests') {
