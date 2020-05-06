@@ -10,6 +10,6 @@ module GovukSchemas
   CONTENT_SCHEMA_DIR = ENV["GOVUK_CONTENT_SCHEMAS_PATH"] || "../govuk-content-schemas"
 
   # @private
-  class InvalidContentGenerated < Exception
+  class InvalidContentGenerated < RuntimeError
   end
 end

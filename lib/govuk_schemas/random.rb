@@ -1,15 +1,15 @@
-require 'securerandom'
+require "securerandom"
 
 module GovukSchemas
   # @private
   module Random
     class << self
-      WORDS = %w[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut suscipit at mauris non bibendum. Ut ac massa est. Aenean tempor imperdiet leo vel interdum. Nam sagittis cursus sem ultricies scelerisque. Quisque porttitor risus vel risus finibus, eu sollicitudin nisl aliquet. Sed sed lectus ac dolor molestie interdum. Nam molestie pellentesque purus ac vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse non tempor eros. Mauris eu orci hendrerit, volutpat lorem in, tristique libero. Duis a nibh nibh.].freeze
+      WORDS = %w[Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut suscipit at mauris non bibendum. Ut ac massa est. Aenean tempor imperdiet leo vel interdum. Nam sagittis cursus sem ultricies scelerisque. Quisque porttitor risus vel risus finibus eu sollicitudin nisl aliquet. Sed sed lectus ac dolor molestie interdum. Nam molestie pellentesque purus ac vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse non tempor eros. Mauris eu orci hendrerit volutpat lorem in tristique libero. Duis a nibh nibh.].freeze
 
       def string_for_type(type)
-        if type == 'date-time'
+        if type == "date-time"
           time
-        elsif type == 'uri'
+        elsif type == "uri"
           uri
         else
           raise "Unknown attribute type `#{type}`"
@@ -17,7 +17,7 @@ module GovukSchemas
       end
 
       def time
-        seconds_ago = rand(10_000_000) - 5_000_000
+        seconds_ago = rand(-5000000..4999999)
         (Time.now + seconds_ago).iso8601
       end
 
@@ -27,20 +27,20 @@ module GovukSchemas
       end
 
       def base_path
-        "/" + rand(1..5).times.map { SecureRandom.uuid }.join('/')
+        "/" + rand(1..5).times.map { SecureRandom.uuid }.join("/")
       end
 
       def govuk_subdomain_url
         subdomain = rand(2..4).times.map {
-          ('a'..'z').to_a.sample(rand(3..8)).join
-        }.join('.')
+          ("a".."z").to_a.sample(rand(3..8)).join
+        }.join(".")
         "https://#{subdomain}.gov.uk#{base_path}"
       end
 
       def string(minimum_chars = nil, maximum_chars = nil)
-        minimum_chars = minimum_chars || 0
-        maximum_chars = maximum_chars || 100
-        WORDS.sample(rand(minimum_chars..maximum_chars)).join(' ')
+        minimum_chars ||= 0
+        maximum_chars ||= 100
+        WORDS.sample(rand(minimum_chars..maximum_chars)).join(" ")
       end
 
       def bool
@@ -52,14 +52,14 @@ module GovukSchemas
       end
 
       def random_identifier(separator:)
-        Utils.parameterize(WORDS.sample(rand(1..10)).join('-')).gsub('-', separator)
+        Utils.parameterize(WORDS.sample(rand(1..10)).join("-")).gsub("-", separator)
       end
 
       def string_for_regex(pattern)
         case pattern.to_s
-        when '^(placeholder|placeholder_.+)$'
-          ['placeholder', "placeholder_#{WORDS.sample}"].sample
-        when '^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$'
+        when "^(placeholder|placeholder_.+)$"
+          ["placeholder", "placeholder_#{WORDS.sample}"].sample
+        when "^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
           SecureRandom.uuid
         when "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?$"
           base_path
@@ -70,9 +70,9 @@ module GovukSchemas
         when "^#.+$"
           anchor
         when "[a-z-]"
-          random_identifier(separator: '-')
+          random_identifier(separator: "-")
         when "^[a-z_]+$"
-          random_identifier(separator: '_')
+          random_identifier(separator: "_")
         when "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?$"
           base_path
         when "^https://([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[A-Za-z0-9])?\\.)+campaign\\.gov\\.uk(/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?)?$"
@@ -82,7 +82,7 @@ module GovukSchemas
         when '[a-z0-9\-_]'
           "#{SecureRandom.hex}-#{SecureRandom.hex}"
         else
-          raise <<-doc
+          raise <<-DOC
             Don't know how to generate random string for pattern #{pattern.inspect}
 
             This propably means you've introduced a new regex in  govuk-content-schemas.
@@ -93,7 +93,7 @@ module GovukSchemas
             To fix this:
 
             - Add your regex to `lib/govuk_schemas/random.rb`
-          doc
+          DOC
         end
       end
     end

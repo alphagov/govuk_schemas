@@ -26,14 +26,14 @@ module GovukSchemas
     end
 
     def message
-      <<~doc
-      expected the payload to be valid against the '#{schema_name}' schema:
+      <<~DOC
+        expected the payload to be valid against the '#{schema_name}' schema:
 
-      #{formatted_payload}
+        #{formatted_payload}
 
-      Validation errors:
-      #{errors}
-      doc
+        Validation errors:
+        #{errors}
+      DOC
     end
 
   private
@@ -46,6 +46,7 @@ module GovukSchemas
 
     def formatted_payload
       return payload if payload.is_a?(String)
+
       JSON.pretty_generate(payload)
     end
 
