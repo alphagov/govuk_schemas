@@ -98,14 +98,14 @@ module GovukSchemas
           || (one_of_sample["properties"] || {}).keys.include?(attribute_name) \
           || subschema["minProperties"] \
 
-        if should_generate_value
-          one_of_properties = (one_of_sample["properties"] || {})[attribute_name]
-          document[attribute_name] = if one_of_properties
-                                       generate_value(one_of_properties)
-                                     else
-                                       generate_value(attribute_properties)
-                                     end
-        end
+        next unless should_generate_value
+
+        one_of_properties = (one_of_sample["properties"] || {})[attribute_name]
+        document[attribute_name] = if one_of_properties
+                                     generate_value(one_of_properties)
+                                   else
+                                     generate_value(attribute_properties)
+                                   end
       end
 
       document

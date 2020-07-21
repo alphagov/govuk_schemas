@@ -17,7 +17,7 @@ module GovukSchemas
       end
 
       def time
-        seconds_ago = rand(-5000000..4999999)
+        seconds_ago = rand(-5_000_000..4_999_999)
         (Time.now + seconds_ago).iso8601
       end
 
