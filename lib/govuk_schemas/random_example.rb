@@ -24,6 +24,11 @@ module GovukSchemas
     #     schema = GovukSchemas::Schema.find(frontend_schema: "detailed_guide")
     #     GovukSchemas::RandomExample.new(schema: schema).payload
     #
+    # If you need a 'consistent' random response, you can set the seed using
+    # (for example) `srand(777)` and know that the payload will always be the
+    # same. Note that timestamps in the payload will continue to reflect the
+    # current time.
+    #
     # @param [Hash] schema A JSON schema.
     # @return [GovukSchemas::RandomExample]
     def initialize(schema:)

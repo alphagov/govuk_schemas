@@ -25,6 +25,16 @@ RSpec.describe GovukSchemas::RandomExample do
       end
     end
 
+    it "returns the same output if a seed is detected" do
+      schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
+      srand(777) # these srand calls would be in the upstream application
+      first_payload = GovukSchemas::RandomExample.new(schema: schema).payload
+      srand(777)
+      second_payload = GovukSchemas::RandomExample.new(schema: schema).payload
+
+      expect(first_payload).to eql(second_payload)
+    end
+
     it "can customise the payload" do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 

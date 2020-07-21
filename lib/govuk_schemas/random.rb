@@ -1,5 +1,3 @@
-require "securerandom"
-
 module GovukSchemas
   # @private
   module Random
@@ -27,7 +25,7 @@ module GovukSchemas
       end
 
       def base_path
-        "/" + rand(1..5).times.map { SecureRandom.uuid }.join("/")
+        "/" + rand(1..5).times.map { uuid }.join("/")
       end
 
       def govuk_subdomain_url
@@ -48,11 +46,21 @@ module GovukSchemas
       end
 
       def anchor
-        "##{SecureRandom.hex}"
+        "##{hex}"
       end
 
       def random_identifier(separator:)
         Utils.parameterize(WORDS.sample(rand(1..10)).join("-")).gsub("-", separator)
+      end
+
+      def uuid
+        # matches uuid regex e.g. e058aad7-ce86-5181-8801-4ddcb3c8f27c
+        # /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/
+        "#{hex(8)}-#{hex(4)}-1#{hex(3)}-a#{hex(3)}-#{hex(12)}"
+      end
+
+      def hex(length = 10)
+        length.times.map { bool ? random_letter : random_number }.join("")
       end
 
       def string_for_regex(pattern)
@@ -60,7 +68,7 @@ module GovukSchemas
         when "^(placeholder|placeholder_.+)$"
           ["placeholder", "placeholder_#{WORDS.sample}"].sample
         when "^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
-          SecureRandom.uuid
+          uuid
         when "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?$"
           base_path
         when "^[1-9][0-9]{3}[-/](0[1-9]|1[0-2])[-/](0[1-9]|[12][0-9]|3[0-1])$"
@@ -80,7 +88,7 @@ module GovukSchemas
         when "^https://([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[A-Za-z0-9])?\\.)*gov\\.uk(/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?(\\?([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)?)?$"
           govuk_subdomain_url
         when '[a-z0-9\-_]'
-          "#{SecureRandom.hex}-#{SecureRandom.hex}"
+          "#{hex}-#{hex}"
         else
           raise <<-DOC
             Don't know how to generate random string for pattern #{pattern.inspect}
@@ -95,6 +103,18 @@ module GovukSchemas
             - Add your regex to `lib/govuk_schemas/random.rb`
           DOC
         end
+      end
+
+    private
+
+      def random_letter
+        letters = ("a".."f").to_a
+        letters[rand(0..letters.count - 1)]
+      end
+
+      def random_number
+        numbers = ("0".."9").to_a
+        numbers[rand(0..numbers.count - 1)]
       end
     end
   end
