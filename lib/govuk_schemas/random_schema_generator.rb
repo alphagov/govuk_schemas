@@ -12,7 +12,8 @@ module GovukSchemas
   class RandomSchemaGenerator
     def initialize(schema:, seed: nil)
       @schema = schema
-      srand(seed) unless seed.nil?
+      @random = Random.new(seed || rand)
+      @generator = RandomContentGenerator.new(random: @random)
     end
 
     def payload
@@ -46,24 +47,24 @@ module GovukSchemas
       end
 
       # Make sure that we choose a type when there are more than one specified.
-      type = Array(type).sample
+      type = Array(type).sample(random: @random)
 
       if props["anyOf"]
-        generate_value(props["anyOf"].sample)
+        generate_value(props["anyOf"].sample(random: @random))
       elsif props["oneOf"] && type != "object"
         # FIXME: Generating valid data for a `oneOf` schema is quite interesting.
         # According to the JSON Schema spec a `oneOf` schema is only valid if
         # the data is valid against *only one* of the clauses. To do this
         # properly, we'd have to verify that the data generated below doesn't
         # validate against the other schemas in `props['oneOf']`.
-        generate_value(props["oneOf"].sample)
+        generate_value(props["oneOf"].sample(random: @random))
       elsif props["allOf"]
         props["allOf"].each_with_object({}) do |subschema, hash|
           val = generate_value(subschema)
           hash.merge(val)
         end
       elsif props["enum"]
-        props["enum"].sample
+        props["enum"].sample(random: @random)
       elsif type == "null"
         nil
       elsif type == "object"
@@ -71,11 +72,11 @@ module GovukSchemas
       elsif type == "array"
         generate_random_array(props)
       elsif type == "boolean"
-        RandomContentGenerator.bool
+        @generator.bool
       elsif type == "integer"
         min = props["minimum"] || 0
         max = props["maximum"] || 10
-        rand(min..max)
+        @random.rand(min..max)
       elsif type == "string"
         generate_random_string(props)
       else
@@ -86,14 +87,14 @@ module GovukSchemas
     def generate_random_object(subschema)
       document = {}
 
-      one_of_sample = subschema.fetch("oneOf", []).sample || {}
+      one_of_sample = subschema.fetch("oneOf", []).sample(random: @random) || {}
 
       (subschema["properties"] || {}).each do |attribute_name, attribute_properties|
         # TODO: When the schema contains `subschema['minProperties']` we always
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
-        should_generate_value = RandomContentGenerator.bool \
+        should_generate_value = @generator.bool \
           || subschema["required"].to_a.include?(attribute_name) \
           || (one_of_sample["required"] || {}).to_a.include?(attribute_name) \
           || (one_of_sample["properties"] || {}).keys.include?(attribute_name) \
@@ -115,7 +116,7 @@ module GovukSchemas
     def generate_random_array(props)
       min = props["minItems"] || 0
       max = props["maxItems"] || 10
-      num_items = rand(min..max)
+      num_items = @random.rand(min..max)
 
       num_items.times.map do
         # sometimes arrays don't have `items` specified, not sure if this is a bug
@@ -125,11 +126,11 @@ module GovukSchemas
 
     def generate_random_string(props)
       if props["format"]
-        RandomContentGenerator.string_for_type(props["format"])
+        @generator.string_for_type(props["format"])
       elsif props["pattern"]
-        RandomContentGenerator.string_for_regex(props["pattern"])
+        @generator.string_for_regex(props["pattern"])
       else
-        RandomContentGenerator.string(props["minLength"], props["maxLength"])
+        @generator.string(props["minLength"], props["maxLength"])
       end
     end
 
