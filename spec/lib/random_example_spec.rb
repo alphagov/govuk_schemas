@@ -30,10 +30,8 @@ RSpec.describe GovukSchemas::RandomExample do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
       # freeze time to avoid inconsistent `public_updated_at` values between runs
       Timecop.freeze do
-        srand(777) # these srand calls would be in the upstream application
-        first_payload = GovukSchemas::RandomExample.new(schema: schema).payload
-        srand(777)
-        second_payload = GovukSchemas::RandomExample.new(schema: schema).payload
+        first_payload = GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
+        second_payload = GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
         expect(first_payload).to eql(second_payload)
       end
     end

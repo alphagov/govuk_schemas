@@ -10,8 +10,9 @@ module GovukSchemas
   #
   # @private
   class RandomItemGenerator
-    def initialize(schema:)
+    def initialize(schema:, seed: nil)
       @schema = schema
+      srand(seed) unless seed.nil?
     end
 
     def payload
