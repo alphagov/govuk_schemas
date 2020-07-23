@@ -1,7 +1,7 @@
-require "govuk_schemas/random"
+require "govuk_schemas/random_content_generator"
 
 module GovukSchemas
-  # The RandomItemGenerator takes a JSON schema and outputs a random hash that
+  # The RandomSchemaGenerator takes a JSON schema and outputs a random hash that
   # is valid against said schema.
   #
   # The "randomness" here is quote relative, it's particularly tailored to the
@@ -9,7 +9,7 @@ module GovukSchemas
   # hundred characters to keep the resulting items small.
   #
   # @private
-  class RandomItemGenerator
+  class RandomSchemaGenerator
     def initialize(schema:, seed: nil)
       @schema = schema
       srand(seed) unless seed.nil?
@@ -71,7 +71,7 @@ module GovukSchemas
       elsif type == "array"
         generate_random_array(props)
       elsif type == "boolean"
-        Random.bool
+        RandomContentGenerator.bool
       elsif type == "integer"
         min = props["minimum"] || 0
         max = props["maximum"] || 10
@@ -93,7 +93,7 @@ module GovukSchemas
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
-        should_generate_value = Random.bool \
+        should_generate_value = RandomContentGenerator.bool \
           || subschema["required"].to_a.include?(attribute_name) \
           || (one_of_sample["required"] || {}).to_a.include?(attribute_name) \
           || (one_of_sample["properties"] || {}).keys.include?(attribute_name) \
@@ -125,11 +125,11 @@ module GovukSchemas
 
     def generate_random_string(props)
       if props["format"]
-        Random.string_for_type(props["format"])
+        RandomContentGenerator.string_for_type(props["format"])
       elsif props["pattern"]
-        Random.string_for_regex(props["pattern"])
+        RandomContentGenerator.string_for_regex(props["pattern"])
       else
-        Random.string(props["minLength"], props["maxLength"])
+        RandomContentGenerator.string(props["minLength"], props["maxLength"])
       end
     end
 

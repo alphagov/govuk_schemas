@@ -1,4 +1,4 @@
-require "govuk_schemas/random_item_generator"
+require "govuk_schemas/random_schema_generator"
 require "json-schema"
 require "json"
 
@@ -33,7 +33,7 @@ module GovukSchemas
     # @return [GovukSchemas::RandomExample]
     def initialize(schema:, seed: nil)
       @schema = schema
-      @random_generator = RandomItemGenerator.new(schema: schema, seed: seed)
+      @random_generator = RandomSchemaGenerator.new(schema: schema, seed: seed)
     end
 
     # Returns a new `GovukSchemas::RandomExample` object.

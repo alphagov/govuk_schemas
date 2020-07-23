@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe GovukSchemas::RandomItemGenerator do
+RSpec.describe GovukSchemas::RandomSchemaGenerator do
   describe "#payload" do
     it "generates an object with a required property" do
       schema = {
@@ -13,7 +13,7 @@ RSpec.describe GovukSchemas::RandomItemGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomItemGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -34,7 +34,7 @@ RSpec.describe GovukSchemas::RandomItemGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomItemGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -59,7 +59,7 @@ RSpec.describe GovukSchemas::RandomItemGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomItemGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -87,7 +87,7 @@ RSpec.describe GovukSchemas::RandomItemGenerator do
         ],
       }
 
-      generator = GovukSchemas::RandomItemGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
 
       expect(generator.payload["my_enum"]).to eq("a")
       expect(generator.payload.keys).to include("my_field")
