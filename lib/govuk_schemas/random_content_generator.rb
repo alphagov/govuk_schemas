@@ -53,7 +53,10 @@ module GovukSchemas
     end
 
     def random_identifier(separator:)
-      Utils.parameterize(WORDS.sample(@random.rand(1..10), random: @random).join("-")).gsub("-", separator)
+      WORDS.sample(@random.rand(1..10), random: @random)
+        .join("-")
+        .gsub(/[^a-z0-9\-_]+/i, "-")
+        .gsub("-", separator)
     end
 
     def uuid
