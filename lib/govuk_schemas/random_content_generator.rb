@@ -18,8 +18,8 @@ module GovukSchemas
     end
 
     def time
-      seconds_ago = @random.rand(-5_000_000..4_999_999)
-      (Time.now + seconds_ago).iso8601
+      arbitrary_time = Time.new(2012, 2, 1)
+      (arbitrary_time + @random.rand(0..500_000_000)).iso8601
     end
 
     # TODO: make this more random with query string, optional anchor.
