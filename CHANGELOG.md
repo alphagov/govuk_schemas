@@ -1,3 +1,7 @@
+# 4.1.0
+
+* Add `seed` parameter to `GovukSchemas::RandomExample` to make the random behaviour deterministic. Given the same seed, the same randomised outputs will be returned ([#56](https://github.com/alphagov/govuk_schemas/pull/56)).
+
 # 4.0.1
 
 * Bump the required Ruby version to >= 2.6.x.

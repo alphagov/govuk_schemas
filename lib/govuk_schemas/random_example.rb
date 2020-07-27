@@ -1,5 +1,4 @@
-require "govuk_schemas/random"
-require "govuk_schemas/random_item_generator"
+require "govuk_schemas/random_schema_generator"
 require "json-schema"
 require "json"
 
@@ -24,11 +23,17 @@ module GovukSchemas
     #     schema = GovukSchemas::Schema.find(frontend_schema: "detailed_guide")
     #     GovukSchemas::RandomExample.new(schema: schema).payload
     #
+    # Example with seed (for consistent results):
+    #
+    #     schema = GovukSchemas::Schema.find(frontend_schema: "detailed_guide")
+    #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
+    #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload # returns same as above
+    #
     # @param [Hash] schema A JSON schema.
     # @return [GovukSchemas::RandomExample]
-    def initialize(schema:)
+    def initialize(schema:, seed: nil)
       @schema = schema
-      @random_generator = RandomItemGenerator.new(schema: schema)
+      @random_generator = RandomSchemaGenerator.new(schema: schema, seed: seed)
     end
 
     # Returns a new `GovukSchemas::RandomExample` object.
