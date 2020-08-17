@@ -12,7 +12,7 @@ module GovukSchemas
   class RandomSchemaGenerator
     def initialize(schema:, seed: nil)
       @schema = schema
-      @random = Random.new(seed || rand)
+      @random = Random.new(seed || Random.new_seed)
       @generator = RandomContentGenerator.new(random: @random)
     end
 

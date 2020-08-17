@@ -1,6 +1,24 @@
 require "spec_helper"
 
 RSpec.describe GovukSchemas::RandomSchemaGenerator do
+  describe ".new" do
+    it "returns non-equivalent generators on subsequent calls" do
+      schema = {
+        "type" => "object",
+        "required" => %w[my_field],
+        "properties" => {
+          "my_field" => {
+            "type" => "string",
+          }
+        }
+      }
+      generator1 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator2 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+
+      expect(generator1.payload).not_to eq(generator2.payload)
+    end
+  end
+
   describe "#payload" do
     it "generates an object with a required property" do
       schema = {
