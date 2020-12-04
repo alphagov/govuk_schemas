@@ -1,3 +1,7 @@
+# 4.2.0
+
+* Add support for generating random HH:MM time strings that match a regex. ([#62](https://github.com/alphagov/govuk_schemas/pull/62))
+
 # 4.1.1
 
 * Fix RandomSchemaGenerator.new always returning equivalent generators ([#60](https://github.com/alphagov/govuk_schemas/pull/60))
