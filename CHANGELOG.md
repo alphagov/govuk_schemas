@@ -1,3 +1,7 @@
+# 4.3.0
+
+* Generate unique items for arrays with the "uniqueItems" property. ([#63](https://github.com/alphagov/govuk_schemas/pull/63))
+
 # 4.2.0
 
 * Add support for generating random HH:MM time strings that match a regex. ([#62](https://github.com/alphagov/govuk_schemas/pull/62))
