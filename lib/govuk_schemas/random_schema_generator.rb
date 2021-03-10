@@ -116,12 +116,27 @@ module GovukSchemas
     def generate_random_array(props)
       min = props["minItems"] || 0
       max = props["maxItems"] || 10
+      unique = props["uniqueItems"] == true
       num_items = @random.rand(min..max)
+      items = []
+      attempts = 0
+      max_attempts = num_items * 100
 
-      num_items.times.map do
+      until items.length == num_items
         # sometimes arrays don't have `items` specified, not sure if this is a bug
-        generate_value(props["items"] || {})
+        new_value = generate_value(props["items"] || {})
+
+        if unique && items.include?(new_value)
+          attempts += 1
+          raise "Failed to create a unique array item after #{max_attempts} attempts" if attempts >= max_attempts
+          next
+        end
+
+        attempts = 0
+        items << new_value
       end
+
+      items
     end
 
     def generate_random_string(props)

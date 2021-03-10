@@ -110,5 +110,44 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
       expect(generator.payload["my_enum"]).to eq("a")
       expect(generator.payload.keys).to include("my_field")
     end
+
+    describe "unique arrays" do
+      it "handles arrays that require unique items" do
+        schema = {
+          "type" => "array",
+          "items" => { "type" => "string" },
+          "uniqueItems" => true,
+          "minItems" => 5,
+          "maxItems" => 5,
+        }
+
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+
+        # These stubs are to ensure determinism in the random array value
+        # generation.
+        allow(generator).to receive(:generate_value).and_call_original
+        allow(generator)
+          .to receive(:generate_value)
+          .with({ "type" => "string" })
+          .and_return(*%w[a a b b c c d d e e])
+
+        expect(generator.payload).to match_array(%w[a b c d e])
+      end
+
+      it "raises an error for a situation where it can't generate a random array" do
+        schema = {
+          "type" => "array",
+          "items" => { "enum" => %w[a b] },
+          "uniqueItems" => true,
+          "minItems" => 3,
+          "maxItems" => 3,
+        }
+
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+
+        expect { generator.payload }
+          .to raise_error "Failed to create a unique array item after 300 attempts"
+      end
+    end
   end
 end
