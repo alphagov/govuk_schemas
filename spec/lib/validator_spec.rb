@@ -19,7 +19,7 @@ RSpec.describe GovukSchemas::Validator do
   end
 
   describe "#error_message" do
-    let(:expected_error_message) do
+    let(:start_of_error_message) do
       <<~DOC
         expected the payload to be valid against the 'placeholder' schema:
 
@@ -28,15 +28,6 @@ RSpec.describe GovukSchemas::Validator do
         }
 
         Validation errors:
-        - The item did not contain a required property of 'base_path' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'details' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'document_type' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'publishing_app' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'rendering_app' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'routes' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'schema_name' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item did not contain a required property of 'title' in schema a6ce2f04-e077-594f-ac8a-864075c96db8
-        - The item contains additional properties ["obviously_invalid"] outside of the schema when none are allowed in schema a6ce2f04-e077-594f-ac8a-864075c96db8
       DOC
     end
 
@@ -44,7 +35,9 @@ RSpec.describe GovukSchemas::Validator do
       example = { obviously_invalid: true }
       validator = described_class.new("placeholder", "publisher", example)
 
-      expect(validator.error_message).to eq expected_error_message
+      expect(validator.error_message).to include start_of_error_message
+      expect(validator.error_message).to match(/- The item did not contain a required property of '([a-z_]+)'/i)
+      expect(validator.error_message).to include('- The item contains additional properties ["obviously_invalid"] outside of the schema when none are allowed')
     end
   end
 end

@@ -39,6 +39,8 @@ module GovukSchemas
 
     def humanized_error(message)
       message.gsub("The property '#/'", "The item")
+             .gsub(/in schema [0-9a-f\-]+/, "")
+             .strip
     end
   end
 end
