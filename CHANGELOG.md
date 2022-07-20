@@ -1,3 +1,7 @@
+# 4.4.0
+
+* Adds support for applications that use Minitest by adding an `AssertMatchers` module ([#66](https://github.com/alphagov/govuk_schemas/pull/66))
+
 # 4.3.0
 
 * Generate unique items for arrays with the "uniqueItems" property. ([#63](https://github.com/alphagov/govuk_schemas/pull/63))
