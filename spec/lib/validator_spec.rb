@@ -16,6 +16,13 @@ RSpec.describe GovukSchemas::Validator do
 
       expect(validator.valid?).to eq false
     end
+
+    it "handles the payload being passed as json" do
+      example = GovukSchemas::RandomExample.for_schema(publisher_schema: "placeholder").to_json
+      validator = described_class.new("placeholder", "publisher", example)
+
+      expect(validator.valid?).to eq true
+    end
   end
 
   describe "#error_message" do
