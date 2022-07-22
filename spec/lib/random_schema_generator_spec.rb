@@ -9,8 +9,8 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
         "properties" => {
           "my_field" => {
             "type" => "string",
-          }
-        }
+          },
+        },
       }
       generator1 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
       generator2 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)

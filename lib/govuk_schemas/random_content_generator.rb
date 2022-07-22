@@ -8,9 +8,10 @@ module GovukSchemas
     end
 
     def string_for_type(type)
-      if type == "date-time"
+      case type
+      when "date-time"
         time
-      elsif type == "uri"
+      when "uri"
         uri
       else
         raise "Unknown attribute type `#{type}`"
@@ -28,7 +29,7 @@ module GovukSchemas
     end
 
     def base_path
-      "/" + @random.rand(1..5).times.map { uuid }.join("/")
+      "/#{@random.rand(1..5).times.map { uuid }.join('/')}"
     end
 
     def govuk_subdomain_url
