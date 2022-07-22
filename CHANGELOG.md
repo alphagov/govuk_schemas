@@ -1,3 +1,7 @@
+# 4.4.1
+
+* Fix `Validator` module to handle JSON or other object types being passed as the payload ([#68](https://github.com/alphagov/govuk_schemas/pull/68))
+
 # 4.4.0
 
 * Adds support for applications that use Minitest by adding an `AssertMatchers` module ([#66](https://github.com/alphagov/govuk_schemas/pull/66))
