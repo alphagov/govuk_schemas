@@ -103,11 +103,7 @@ module GovukSchemas
         next unless should_generate_value
 
         one_of_properties = (one_of_sample["properties"] || {})[attribute_name]
-        document[attribute_name] = if one_of_properties
-                                     generate_value(one_of_properties)
-                                   else
-                                     generate_value(attribute_properties)
-                                   end
+        document[attribute_name] = generate_value(one_of_properties || attribute_properties)
       end
 
       document
@@ -129,6 +125,7 @@ module GovukSchemas
         if unique && items.include?(new_value)
           attempts += 1
           raise "Failed to create a unique array item after #{max_attempts} attempts" if attempts >= max_attempts
+
           next
         end
 

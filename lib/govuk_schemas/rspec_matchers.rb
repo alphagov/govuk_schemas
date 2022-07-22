@@ -2,7 +2,6 @@ require "govuk_schemas/validator"
 
 module GovukSchemas
   module RSpecMatchers
-
     %w[links frontend publisher notification].each do |schema_type|
       RSpec::Matchers.define "be_valid_against_#{schema_type}_schema".to_sym do |schema_name|
         match do |item|
@@ -10,10 +9,7 @@ module GovukSchemas
           @validator.valid?
         end
 
-
-        failure_message do |actual|
-          @validator.error_message
-        end
+        failure_message { @validator.error_message }
       end
     end
   end

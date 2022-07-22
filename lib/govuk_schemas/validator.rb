@@ -29,7 +29,7 @@ module GovukSchemas
     def errors
       schema = Schema.find("#{type}_schema": schema_name)
       validator = JSON::Validator.fully_validate(schema, payload)
-      validator.map { |message| "- " + humanized_error(message) }.join("\n")
+      validator.map { |message| "- #{humanized_error(message)}" }.join("\n")
     end
 
     def formatted_payload

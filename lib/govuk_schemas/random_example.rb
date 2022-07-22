@@ -90,7 +90,7 @@ module GovukSchemas
         payload = yield(payload)
         # check the payload again after customisation
         errors = validation_errors_for(payload)
-        raise InvalidContentGenerated, error_message(payload, errors, true) if errors.any?
+        raise InvalidContentGenerated, error_message(payload, errors, customised: true) if errors.any?
       end
 
       payload
@@ -102,7 +102,7 @@ module GovukSchemas
       JSON::Validator.fully_validate(@schema, item, errors_as_objects: true)
     end
 
-    def error_message(item, errors, customised = false)
+    def error_message(item, errors, customised: false)
       details = <<~ERR
         Generated payload:
         --------------------------
