@@ -4,14 +4,3 @@ updates:
     directory: /
     schedule:
       interval: daily
-    allow:
-      # Internal gems
-      - dependency-name: "govuk*"
-        dependency-type: direct
-      - dependency-name: rubocop-govuk
-        dependency-type: direct
-      # Framework gems
-      - dependency-name: rake
-        dependency-type: direct
-      - dependency-name: rspec
-        dependency-type: direct
