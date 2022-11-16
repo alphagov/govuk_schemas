@@ -6,7 +6,7 @@ require "govuk_schemas/example"
 
 module GovukSchemas
   # @private
-  CONTENT_SCHEMA_DIR = ENV["GOVUK_CONTENT_SCHEMAS_PATH"] || "../govuk-content-schemas"
+  CONTENT_SCHEMA_DIR = ENV["GOVUK_CONTENT_SCHEMAS_PATH"] || "../publishing-api/content_schemas"
 
   # @private
   class InvalidContentGenerated < RuntimeError
