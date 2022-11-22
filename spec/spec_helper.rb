@@ -1,4 +1,5 @@
 require "govuk_schemas"
+require "climate_control"
 require "pry-byebug"
 
 RSpec.configure do |config|

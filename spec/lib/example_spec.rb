@@ -24,7 +24,7 @@ RSpec.describe GovukSchemas::Example do
     before do
       allow(Dir)
         .to receive(:exist?)
-        .with("#{GovukSchemas::CONTENT_SCHEMA_DIR}/examples")
+        .with("#{GovukSchemas.content_schema_dir}/examples")
         .and_return(in_examples)
     end
 
@@ -32,12 +32,12 @@ RSpec.describe GovukSchemas::Example do
 
     context "when schema examples are in /examples" do
       let(:in_examples) { true }
-      it { is_expected.to eq "#{GovukSchemas::CONTENT_SCHEMA_DIR}/examples/#{schema_name}/frontend" }
+      it { is_expected.to eq "#{GovukSchemas.content_schema_dir}/examples/#{schema_name}/frontend" }
     end
 
     context "when schema examples are not in /examples" do
       let(:in_examples) { false }
-      it { is_expected.to eq "#{GovukSchemas::CONTENT_SCHEMA_DIR}/formats/#{schema_name}/frontend/examples" }
+      it { is_expected.to eq "#{GovukSchemas.content_schema_dir}/formats/#{schema_name}/frontend/examples" }
     end
   end
 end

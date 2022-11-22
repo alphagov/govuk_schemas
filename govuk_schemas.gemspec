@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   # This should be kept in sync with the json-schema version of govuk-content-schemas.
   spec.add_dependency "json-schema", ">= 2.8", "< 3.1"
 
+  spec.add_development_dependency "climate_control", "~> 1.2"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.4"

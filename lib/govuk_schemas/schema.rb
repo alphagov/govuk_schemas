@@ -11,7 +11,7 @@ module GovukSchemas
     #   GovukSchemas::Schema.find(notification_schema: "detailed_guide")
     # @return [Hash] the JSON schema as a hash
     def self.find(schema)
-      file_path = "#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/#{location_for_schema_name(schema)}"
+      file_path = "#{GovukSchemas.content_schema_dir}/dist/formats/#{location_for_schema_name(schema)}"
       JSON.parse(File.read(file_path))
     end
 
@@ -21,7 +21,7 @@ module GovukSchemas
     # @return [Array<Hash>] List of JSON schemas as hashes
     def self.all(schema_type: "*")
       schema_type = "publisher_v2" if schema_type == "publisher"
-      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*/#{schema_type}/*.json").each_with_object({}) do |file_path, hash|
+      Dir.glob("#{GovukSchemas.content_schema_dir}/dist/formats/*/#{schema_type}/*.json").each_with_object({}) do |file_path, hash|
         hash[file_path] = JSON.parse(File.read(file_path))
       end
     end
@@ -38,7 +38,7 @@ module GovukSchemas
     #
     # @return [Array] all the schema names
     def self.schema_names
-      Dir.glob("#{GovukSchemas::CONTENT_SCHEMA_DIR}/dist/formats/*").map do |directory|
+      Dir.glob("#{GovukSchemas.content_schema_dir}/dist/formats/*").map do |directory|
         File.basename(directory)
       end
     end

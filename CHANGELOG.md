@@ -1,3 +1,7 @@
+# Unreleased
+
+* Content schema path can be configured with GovukSchemas.content_schema_dir = "/path/to/schemas"
+
 # 4.4.1
 
 * Fix `Validator` module to handle JSON or other object types being passed as the payload ([#68](https://github.com/alphagov/govuk_schemas/pull/68))
