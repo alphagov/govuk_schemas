@@ -1,5 +1,6 @@
 require "govuk_schemas"
 require "pry-byebug"
+require "climate_control"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
