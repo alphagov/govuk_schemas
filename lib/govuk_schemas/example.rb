@@ -27,11 +27,11 @@ module GovukSchemas
     # @param schema_name [String] like "detailed_guide", "policy" or "publication"
     # @return [String] the path to use for examples
     def self.examples_path(schema_name)
-      examples_dir = "#{GovukSchemas::CONTENT_SCHEMA_DIR}/examples"
+      examples_dir = "#{GovukSchemas.content_schema_dir}/examples"
       if Dir.exist?(examples_dir)
         "#{examples_dir}/#{schema_name}/frontend"
       else
-        "#{GovukSchemas::CONTENT_SCHEMA_DIR}/formats/#{schema_name}/frontend/examples"
+        "#{GovukSchemas.content_schema_dir}/formats/#{schema_name}/frontend/examples"
       end
     end
   end
