@@ -102,7 +102,7 @@ module GovukSchemas
         raise <<-DOC
           Don't know how to generate random string for pattern #{pattern.inspect}
 
-          This propably means you've introduced a new regex in  govuk-content-schemas.
+          This propably means you've introduced a new regex in  publishing api.
           Because it's very hard to generate a valid string from a regex alone,
           we have to specify a method to generate random data for each regex in
           the schemas.

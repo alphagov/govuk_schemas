@@ -1,6 +1,6 @@
 # GOV.UK Schemas
 
-Gem to work with the [govuk-content-schemas](https://github.com/alphagov/govuk-content-schemas).
+Gem to work with the [schemas in publishing api](https://github.com/alphagov/publishing-api/tree/main/content_schemas).
 
 ## Installation
 
@@ -16,7 +16,7 @@ gem "govuk_schemas", "~> VERSION"
 
 ## Running the test suite
 
-Make sure you have `govuk-content-schemas` cloned in a sibling directory:
+Make sure you have `publishing-api` cloned in a sibling directory:
 
 ```
 bundle exec rake
