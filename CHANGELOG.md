@@ -1,5 +1,6 @@
-# UNRELEASED
+# 4.5.0
 
+General support for content schemas in publishing api:
 * Update default content schemas url to point to publishing api rather than govuk-content-schemas. This is because we are merging schemas into publishing api.
 * Update path of allowed_document_types.yml to reflect new location in publishing api, allowing us to remove a symlink.
 * Introduce a setter method for manually configuring the path to schemas, outside of an env variable

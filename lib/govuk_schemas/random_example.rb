@@ -9,7 +9,7 @@ module GovukSchemas
   #
   # - The gem doesn't support `patternProperties` yet. On GOV.UK we [use this in
   # the expanded frontend
-  # links](https://github.com/alphagov/govuk-content-schemas/blob/bdd97d18c7a9318e66f332f0748a410fddab1141/formats/frontend_links_definition.json#L67-L71).
+  # links](https://github.com/alphagov/publishing-api/blob/a8039d430e44c86c3f54a69569f07ad48a4fc912/content_schemas/formats/shared/definitions/frontend_links.jsonnet#L118-L121).
   # - It's complicated to generate random data for `oneOf` properties. According
   # to the JSON Schema spec a `oneOf` schema is only valid if the data is valid
   # against *only one* of the clauses. To do this properly, we'd have to make
