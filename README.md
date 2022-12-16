@@ -30,4 +30,4 @@ To run a Yard server locally to preview documentation, run:
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](LICENSE.md).
+The gem is available as open source under the terms of the [MIT License](LICENCE).
