@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-govuk", "4.9.0"
   spec.add_development_dependency "yard", "~> 0.8"
 
-  spec.required_ruby_version = ">= 2.6"
+  spec.required_ruby_version = ">= 3.0"
 end

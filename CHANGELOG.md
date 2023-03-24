@@ -1,3 +1,7 @@
+## Unreleased
+
+* Drop support for Ruby 2.7.
+
 # 4.5.0
 
 General support for content schemas in publishing api:
