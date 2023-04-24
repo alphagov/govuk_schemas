@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w[lib]
 
   # This should be kept in sync with the json-schema version of publishing-api.
-  spec.add_dependency "json-schema", ">= 2.8", "< 3.1"
+  spec.add_dependency "json-schema", ">= 2.8", "< 4.1"
 
   spec.add_development_dependency "climate_control"
   spec.add_development_dependency "pry-byebug"
