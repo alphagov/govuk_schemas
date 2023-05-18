@@ -102,14 +102,13 @@ module GovukSchemas
         raise <<-DOC
           Don't know how to generate random string for pattern #{pattern.inspect}
 
-          This propably means you've introduced a new regex in  publishing api.
-          Because it's very hard to generate a valid string from a regex alone,
-          we have to specify a method to generate random data for each regex in
-          the schemas.
+          This probably means you've introduced a new regex in to a content
+          schema in Publishing API. Because it's very hard to generate a valid
+          string from a regex alone, we have to specify a method to generate
+          random data for each regex in the schemas.
 
-          To fix this:
-
-          - Add your regex to `lib/govuk_schemas/random.rb`
+          This can be fixed by adding your regex to `lib/govuk_schemas/random_content_generator.rb`
+          in https://github.com/alphagov/govuk_schemas
         DOC
       end
     end
