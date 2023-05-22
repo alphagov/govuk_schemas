@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.4"
   spec.add_development_dependency "rubocop-govuk", "4.10.0"
-  spec.add_development_dependency "yard", "~> 0.8"
 
   spec.required_ruby_version = ">= 3.0"
 end

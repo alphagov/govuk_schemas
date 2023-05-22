@@ -22,12 +22,6 @@ Make sure you have `publishing-api` cloned in a sibling directory:
 bundle exec rake
 ```
 
-### Documentation
-
-To run a Yard server locally to preview documentation, run:
-
-    $ bundle exec yard server --reload
-
 ## License
 
 The gem is available as open source under the terms of the [MIT License](LICENCE).
