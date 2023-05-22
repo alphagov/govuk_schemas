@@ -1,6 +1,8 @@
-## Unreleased
+# 4.6.0
 
 * Drop support for Ruby 2.7.
+* Fix guidance on fixing a regex issue to reference correct filename.
+* Add support for `^[1-9][0-9]{3}$` regex to resolve exceptions randomly generating specialist_documents.
 
 # 4.5.0
 
