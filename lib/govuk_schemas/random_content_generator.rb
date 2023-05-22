@@ -84,6 +84,8 @@ module GovukSchemas
         Date.today.iso8601
       when "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
         Time.now.strftime("%H:%m")
+      when "^[1-9][0-9]{3}$"
+        rand(1000...9999).to_s
       when "^#.+$"
         anchor
       when "[a-z-]"
