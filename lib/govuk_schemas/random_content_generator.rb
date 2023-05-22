@@ -84,6 +84,8 @@ module GovukSchemas
         Date.today.iso8601
       when "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
         Time.now.strftime("%H:%m")
+      when "^[1-9][0-9]{3}$"
+        rand(1000...9999).to_s
       when "^#.+$"
         anchor
       when "[a-z-]"
@@ -99,17 +101,16 @@ module GovukSchemas
       when '[a-z0-9\-_]'
         "#{hex}-#{hex}"
       else
-        raise <<-DOC
+        raise <<~DOC
           Don't know how to generate random string for pattern #{pattern.inspect}
 
-          This propably means you've introduced a new regex in  publishing api.
-          Because it's very hard to generate a valid string from a regex alone,
-          we have to specify a method to generate random data for each regex in
-          the schemas.
+          This probably means you've introduced a new regex in to a content
+          schema in Publishing API. Because it's very hard to generate a valid
+          string from a regex alone, we have to specify a method to generate
+          random data for each regex in the schemas.
 
-          To fix this:
-
-          - Add your regex to `lib/govuk_schemas/random.rb`
+          This can be fixed by adding your regex to `lib/govuk_schemas/random_content_generator.rb`
+          in https://github.com/alphagov/govuk_schemas
         DOC
       end
     end
