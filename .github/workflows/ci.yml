@@ -1,4 +1,14 @@
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch, tag or SHA to checkout'
+        default: main
+        type: string
 
 jobs:
   # This matrix job runs the test suite against multiple Ruby versions
@@ -11,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - name: Clone content-schemas
         uses: actions/checkout@v3
         with:
