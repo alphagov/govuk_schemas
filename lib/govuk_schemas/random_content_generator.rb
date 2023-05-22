@@ -99,7 +99,7 @@ module GovukSchemas
       when '[a-z0-9\-_]'
         "#{hex}-#{hex}"
       else
-        raise <<-DOC
+        raise <<~DOC
           Don't know how to generate random string for pattern #{pattern.inspect}
 
           This probably means you've introduced a new regex in to a content
