@@ -1,3 +1,7 @@
+# 4.7.0
+
+* Update `json-schema` dependency.
+
 # 4.6.0
 
 * Drop support for Ruby 2.7.
