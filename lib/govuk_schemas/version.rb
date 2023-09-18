@@ -1,4 +1,4 @@
 module GovukSchemas
   # @private
-  VERSION = "4.6.0".freeze
+  VERSION = "4.7.0".freeze
 end
