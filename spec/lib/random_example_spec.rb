@@ -3,13 +3,13 @@ require "spec_helper"
 RSpec.describe GovukSchemas::RandomExample do
   describe ".for_schema" do
     it "returns a random example for a schema" do
-      example = GovukSchemas::RandomExample.for_schema(frontend_schema: "placeholder")
+      example = GovukSchemas::RandomExample.for_schema(frontend_schema: "generic")
 
       expect(example).to be_a(Hash)
     end
 
     it "can be customised" do
-      example = GovukSchemas::RandomExample.for_schema(frontend_schema: "placeholder") do |hash|
+      example = GovukSchemas::RandomExample.for_schema(frontend_schema: "generic") do |hash|
         hash.merge("base_path" => "/some-base-path")
       end
 
