@@ -21,21 +21,21 @@ RSpec.describe GovukSchemas::RandomExample do
     GovukSchemas::Schema.all.each do |file_path, schema|
       it "generates valid content for schema #{file_path}" do
         # This will raise an informative error if an invalid schema is generated.
-        GovukSchemas::RandomExample.new(schema: schema).payload
+        GovukSchemas::RandomExample.new(schema:).payload
       end
     end
 
     it "returns the same output if a seed is detected" do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
-      first_payload = GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
-      second_payload = GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
+      first_payload = GovukSchemas::RandomExample.new(schema:, seed: 777).payload
+      second_payload = GovukSchemas::RandomExample.new(schema:, seed: 777).payload
       expect(first_payload).to eql(second_payload)
     end
 
     it "can customise the payload" do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 
-      example = GovukSchemas::RandomExample.new(schema: schema).payload do |hash|
+      example = GovukSchemas::RandomExample.new(schema:).payload do |hash|
         hash.merge("base_path" => "/some-base-path")
       end
 
@@ -46,7 +46,7 @@ RSpec.describe GovukSchemas::RandomExample do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 
       expect {
-        GovukSchemas::RandomExample.new(schema: schema).payload do |hash|
+        GovukSchemas::RandomExample.new(schema:).payload do |hash|
           hash["base_path"] = "/some-base-path"
         end
       }.to raise_error(GovukSchemas::InvalidContentGenerated)
@@ -56,7 +56,7 @@ RSpec.describe GovukSchemas::RandomExample do
       schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
 
       expect {
-        GovukSchemas::RandomExample.new(schema: schema).payload do |hash|
+        GovukSchemas::RandomExample.new(schema:).payload do |hash|
           hash.merge("base_path" => nil)
         end
       }.to raise_error(GovukSchemas::InvalidContentGenerated)

@@ -31,7 +31,7 @@ module GovukSchemas
     # @param schema_type [String] The type: frontend, publisher, notification or links
     # @return [Hash] a JSON schema as a hash
     def self.random_schema(schema_type:)
-      all(schema_type: schema_type).values.sample
+      all(schema_type:).values.sample
     end
 
     # Return all schema names
