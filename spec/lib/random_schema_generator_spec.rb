@@ -12,8 +12,8 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
           },
         },
       }
-      generator1 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
-      generator2 = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator1 = GovukSchemas::RandomSchemaGenerator.new(schema:)
+      generator2 = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
       expect(generator1.payload).not_to eq(generator2.payload)
     end
@@ -31,7 +31,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -52,7 +52,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -77,7 +77,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
         },
       }
 
-      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
       expect(generator.payload.keys).to include("my_field")
     end
@@ -105,7 +105,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
         ],
       }
 
-      generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
       expect(generator.payload["my_enum"]).to eq("a")
       expect(generator.payload.keys).to include("my_field")
@@ -121,7 +121,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
           "maxItems" => 5,
         }
 
-        generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
         # These stubs are to ensure determinism in the random array value
         # generation.
@@ -143,7 +143,7 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
           "maxItems" => 3,
         }
 
-        generator = GovukSchemas::RandomSchemaGenerator.new(schema: schema)
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
 
         expect { generator.payload }
           .to raise_error "Failed to create a unique array item after 300 attempts"

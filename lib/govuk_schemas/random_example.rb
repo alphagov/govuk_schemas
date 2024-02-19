@@ -33,7 +33,7 @@ module GovukSchemas
     # @return [GovukSchemas::RandomExample]
     def initialize(schema:, seed: nil)
       @schema = schema
-      @random_generator = RandomSchemaGenerator.new(schema: schema, seed: seed)
+      @random_generator = RandomSchemaGenerator.new(schema:, seed:)
     end
 
     # Returns a new `GovukSchemas::RandomExample` object.
@@ -58,7 +58,7 @@ module GovukSchemas
     #   the new payload. The new payload is then validated. (optional)
     def self.for_schema(schema_key_value, &block)
       schema = GovukSchemas::Schema.find(schema_key_value)
-      GovukSchemas::RandomExample.new(schema: schema).payload(&block)
+      GovukSchemas::RandomExample.new(schema:).payload(&block)
     end
 
     # Return a content item merged with a hash and with the excluded fields removed.
