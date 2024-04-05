@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.4"
-  spec.add_development_dependency "rubocop-govuk", "4.16.0"
+  spec.add_development_dependency "rubocop-govuk", "4.16.1"
 
   spec.required_ruby_version = ">= 3.1.4"
 end
