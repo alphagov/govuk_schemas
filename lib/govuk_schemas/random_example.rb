@@ -29,7 +29,8 @@ module GovukSchemas
     #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
     #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload # returns same as above
     #
-    # @param [Hash] schema A JSON schema.
+    # @param [Hash]         schema  A JSON schema.
+    # @param [Integer, nil] seed    A random number seed for deterministic results
     # @return [GovukSchemas::RandomExample]
     def initialize(schema:, seed: nil)
       @schema = schema
@@ -54,8 +55,6 @@ module GovukSchemas
     # @param [Block] the base payload is passed inton the block, with the block result then becoming
     #   the new payload. The new payload is then validated. (optional)
     # @return [GovukSchemas::RandomExample]
-    # @param [Block] the base payload is passed inton the block, with the block result then becoming
-    #   the new payload. The new payload is then validated. (optional)
     def self.for_schema(schema_key_value, &block)
       schema = GovukSchemas::Schema.find(schema_key_value)
       GovukSchemas::RandomExample.new(schema:).payload(&block)
