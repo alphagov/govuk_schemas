@@ -29,7 +29,8 @@ module GovukSchemas
     #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload
     #     GovukSchemas::RandomExample.new(schema: schema, seed: 777).payload # returns same as above
     #
-    # @param [Hash] schema A JSON schema.
+    # @param [Hash]         schema  A JSON schema.
+    # @param [Integer, nil] seed    A random number seed for deterministic results
     # @return [GovukSchemas::RandomExample]
     def initialize(schema:, seed: nil)
       @schema = schema
@@ -54,8 +55,6 @@ module GovukSchemas
     # @param [Block] the base payload is passed inton the block, with the block result then becoming
     #   the new payload. The new payload is then validated. (optional)
     # @return [GovukSchemas::RandomExample]
-    # @param [Block] the base payload is passed inton the block, with the block result then becoming
-    #   the new payload. The new payload is then validated. (optional)
     def self.for_schema(schema_key_value, &block)
       schema = GovukSchemas::Schema.find(schema_key_value)
       GovukSchemas::RandomExample.new(schema:).payload(&block)
@@ -80,23 +79,39 @@ module GovukSchemas
     #   the new payload. The new payload is then validated. (optional)
     # @return [Hash] A content item
     # @raise [GovukSchemas::InvalidContentGenerated]
-    def payload
+    def payload(&block)
       payload = @random_generator.payload
-      # ensure the base payload is valid
+
+      return customise_payload(payload, &block) if block
+
       errors = validation_errors_for(payload)
       raise InvalidContentGenerated, error_message(payload, errors) if errors.any?
-
-      if block_given?
-        payload = yield(payload)
-        # check the payload again after customisation
-        errors = validation_errors_for(payload)
-        raise InvalidContentGenerated, error_message(payload, errors, customised: true) if errors.any?
-      end
 
       payload
     end
 
   private
+
+    def customise_payload(payload)
+      original_payload = payload
+      customised_payload = yield(payload)
+      customised_errors = validation_errors_for(customised_payload)
+
+      if customised_errors.any?
+        # Check if the original payload had errors and report those over
+        # any from customisation. This is not done prior to generating the
+        # customised payload because validation is time expensive and we
+        # want to avoid it if possible.
+        original_errors = validation_errors_for(original_payload)
+        errors = original_errors.any? ? original_errors : customised_errors
+        payload = original_errors.any? ? original_payload : customised_payload
+        message = error_message(payload, errors, customised: original_errors.empty?)
+
+        raise InvalidContentGenerated, message
+      end
+
+      customised_payload
+    end
 
     def validation_errors_for(item)
       JSON::Validator.fully_validate(@schema, item, errors_as_objects: true)

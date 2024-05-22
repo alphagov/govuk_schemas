@@ -1,3 +1,7 @@
+# Unreleased
+
+* Improve speed of random schema generation for customised content items
+
 # 5.0.0
 
 * BREAKING: Drop support for Ruby 3.0. The minimum required Ruby version is now 3.1.4.
