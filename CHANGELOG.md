@@ -1,4 +1,4 @@
-# Unreleased
+# 5.0.1
 
 * Improve speed of random schema generation for customised content items
 
