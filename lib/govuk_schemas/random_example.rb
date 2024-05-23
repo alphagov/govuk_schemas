@@ -93,7 +93,8 @@ module GovukSchemas
   private
 
     def customise_payload(payload)
-      original_payload = payload
+      # Use Marshal to create a deep dup of the payload so the original can be mutated
+      original_payload = Marshal.load(Marshal.dump(payload))
       customised_payload = yield(payload)
       customised_errors = validation_errors_for(customised_payload)
 
