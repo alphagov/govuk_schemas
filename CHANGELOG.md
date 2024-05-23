@@ -1,4 +1,4 @@
-# Unreleased
+# 5.0.2
 
 * Fix issue where customised schema validation message was incorrect for a modified payload
 
