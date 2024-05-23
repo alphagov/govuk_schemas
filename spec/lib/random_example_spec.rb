@@ -62,6 +62,17 @@ RSpec.describe GovukSchemas::RandomExample do
         }.to raise_error(GovukSchemas::InvalidContentGenerated, /The item was valid before being customised/)
       end
 
+      it "raises when modifying the hash directly creates an invalid content item" do
+        schema = GovukSchemas::Schema.random_schema(schema_type: "frontend")
+
+        expect {
+          GovukSchemas::RandomExample.new(schema:).payload do |hash|
+            hash["base_path"] = nil
+            hash
+          end
+        }.to raise_error(GovukSchemas::InvalidContentGenerated, /The item was valid before being customised/)
+      end
+
       it "raises if the non-customised content item was invalid" do
         generator = instance_double(GovukSchemas::RandomSchemaGenerator, payload: {})
         allow(GovukSchemas::RandomSchemaGenerator).to receive(:new).and_return(generator)
