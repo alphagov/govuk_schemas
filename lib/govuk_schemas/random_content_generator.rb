@@ -1,3 +1,5 @@
+require "faker"
+
 module GovukSchemas
   # @private
   class RandomContentGenerator
@@ -13,6 +15,8 @@ module GovukSchemas
         time
       when "uri"
         uri
+      when "email"
+        Faker::Internet.email
       else
         raise "Unknown attribute type `#{type}`"
       end
