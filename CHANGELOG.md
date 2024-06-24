@@ -1,3 +1,9 @@
+# 5.0.3
+
+* Add support for `email` string types
+* Use `Faker` gem to generate emails and URLs
+* Improve error messages when an unknown type is given in `GovukSchemas::RandomContentGenerator#string_for_type`
+
 # 5.0.2
 
 * Fix issue where customised schema validation message was incorrect for a modified payload
