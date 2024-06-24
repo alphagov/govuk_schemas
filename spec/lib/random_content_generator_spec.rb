@@ -18,6 +18,12 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
 
       expect(response).to eq(email)
     end
+
+    it "raises an error if the type is not present" do
+      expect {
+        GovukSchemas::RandomContentGenerator.new.string_for_type("duration")
+      }.to raise_error(/Unsupported JSON schema type `duration`/)
+    end
   end
 
   describe ".uri" do

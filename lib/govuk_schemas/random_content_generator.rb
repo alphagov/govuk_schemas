@@ -18,7 +18,17 @@ module GovukSchemas
       when "email"
         Faker::Internet.email
       else
-        raise "Unknown attribute type `#{type}`"
+        raise <<~DOC
+           Unsupported JSON schema type `#{type}`
+
+           Supported formats are:
+             - date-time
+             - uri
+             - email
+
+           This can be fixed by adding a type to the `string_for_type` method in
+          `lib/govuk_schemas/random_content_generator.rb` in https://github.com/alphagov/govuk_schemas
+        DOC
       end
     end
 
