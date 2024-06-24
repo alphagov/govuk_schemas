@@ -1,3 +1,7 @@
+# 5.0.4
+
+* Ensure `Faker` is added as a non-development dependency 
+
 # 5.0.3
 
 * Add support for `email` string types
