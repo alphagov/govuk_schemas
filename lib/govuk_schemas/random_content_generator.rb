@@ -1,3 +1,5 @@
+require "faker"
+
 module GovukSchemas
   # @private
   class RandomContentGenerator
@@ -5,6 +7,7 @@ module GovukSchemas
 
     def initialize(random: Random.new)
       @random = random
+      Faker::Config.random = @random
     end
 
     def string_for_type(type)
@@ -13,8 +16,20 @@ module GovukSchemas
         time
       when "uri"
         uri
+      when "email"
+        Faker::Internet.email
       else
-        raise "Unknown attribute type `#{type}`"
+        raise <<~DOC
+           Unsupported JSON schema type `#{type}`
+
+           Supported formats are:
+             - date-time
+             - uri
+             - email
+
+           This can be fixed by adding a type to the `string_for_type` method in
+          `lib/govuk_schemas/random_content_generator.rb` in https://github.com/alphagov/govuk_schemas
+        DOC
       end
     end
 
@@ -25,7 +40,7 @@ module GovukSchemas
 
     # TODO: make this more random with query string, optional anchor.
     def uri
-      "http://example.com#{base_path}#{anchor}"
+      "#{Faker::Internet.url(path: base_path)}#{anchor}"
     end
 
     def base_path
@@ -33,10 +48,8 @@ module GovukSchemas
     end
 
     def govuk_subdomain_url
-      subdomain = @random.rand(2..4).times.map {
-        ("a".."z").to_a.sample(@random.rand(3..8), random: @random).join
-      }.join(".")
-      "https://#{subdomain}.gov.uk#{base_path}"
+      host = Faker::Internet.domain_name(subdomain: true, domain: "gov.uk")
+      Faker::Internet.url(host:, path: base_path)
     end
 
     def string(minimum_chars = nil, maximum_chars = nil)
