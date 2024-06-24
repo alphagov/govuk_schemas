@@ -29,7 +29,7 @@ module GovukSchemas
 
     # TODO: make this more random with query string, optional anchor.
     def uri
-      "http://example.com#{base_path}#{anchor}"
+      "#{Faker::Internet.url(path: base_path)}#{anchor}"
     end
 
     def base_path
@@ -37,10 +37,8 @@ module GovukSchemas
     end
 
     def govuk_subdomain_url
-      subdomain = @random.rand(2..4).times.map {
-        ("a".."z").to_a.sample(@random.rand(3..8), random: @random).join
-      }.join(".")
-      "https://#{subdomain}.gov.uk#{base_path}"
+      host = Faker::Internet.domain_name(subdomain: true, domain: "gov.uk")
+      Faker::Internet.url(host:, path: base_path)
     end
 
     def string(minimum_chars = nil, maximum_chars = nil)
