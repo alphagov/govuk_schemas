@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "faker", ">= 3.4.1", "< 3.6.0"
   # This should be kept in sync with the json-schema version of publishing-api.
-  spec.add_dependency "json-schema", ">= 2.8", "< 5.1"
+  spec.add_dependency "json-schema", ">= 2.8", "< 5.2"
 
   spec.add_development_dependency "climate_control"
   spec.add_development_dependency "pry-byebug"
