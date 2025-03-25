@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/govuk_schemas/pull/141)
+
 ## 5.0.4
 
 * Ensure `Faker` is added as a non-development dependency
