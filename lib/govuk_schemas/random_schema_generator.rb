@@ -94,11 +94,11 @@ module GovukSchemas
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
-        should_generate_value = @generator.bool \
-          || subschema["required"].to_a.include?(attribute_name) \
-          || (one_of_sample["required"] || {}).to_a.include?(attribute_name) \
-          || (one_of_sample["properties"] || {}).keys.include?(attribute_name) \
-          || subschema["minProperties"] \
+        should_generate_value = @generator.bool ||
+          subschema["required"].to_a.include?(attribute_name) ||
+          (one_of_sample["required"] || {}).to_a.include?(attribute_name) ||
+          (one_of_sample["properties"] || {}).keys.include?(attribute_name) ||
+          subschema["minProperties"]
 
         next unless should_generate_value
 
