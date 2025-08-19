@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Introduce a "one of everything" strategy for RandomSchemaGenerator https://github.com/alphagov/govuk_schemas/pull/168
+
 ## 6.0.0
 
 * BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/govuk_schemas/pull/141)
