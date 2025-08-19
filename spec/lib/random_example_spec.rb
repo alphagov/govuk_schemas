@@ -15,6 +15,15 @@ RSpec.describe GovukSchemas::RandomExample do
 
       expect(example["base_path"]).to eql("/some-base-path")
     end
+
+    it "can be supplied a random seed to be passed onto RandomSchemaGenerator" do
+      example = GovukSchemas::RandomExample.for_schema(
+        frontend_schema: "generic",
+        seed: 777,
+      )
+
+      expect(example).to be_a(Hash)
+    end
   end
 
   describe "#payload" do
