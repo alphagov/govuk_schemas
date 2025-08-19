@@ -10,6 +10,9 @@ module GovukSchemas
   #
   # @private
   class RandomSchemaGenerator
+    DEFAULT_MIN_ITEMS = 0
+    DEFAULT_MAX_ITEMS = 10
+
     def initialize(schema:, seed: nil)
       @schema = schema
       @random = Random.new(seed || Random.new_seed)
@@ -109,9 +112,17 @@ module GovukSchemas
       document
     end
 
+    def min_items_for_array(array_properties)
+      array_properties["minItems"] || DEFAULT_MIN_ITEMS
+    end
+
+    def max_items_for_array(array_properties)
+      array_properties["maxItems"] || DEFAULT_MAX_ITEMS
+    end
+
     def generate_random_array(props)
-      min = props["minItems"] || 0
-      max = props["maxItems"] || 10
+      min = min_items_for_array(props)
+      max = max_items_for_array(props)
       unique = props["uniqueItems"] == true
       num_items = @random.rand(min..max)
       items = []
