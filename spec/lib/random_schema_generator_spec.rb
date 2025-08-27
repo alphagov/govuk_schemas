@@ -149,5 +149,96 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
           .to raise_error "Failed to create a unique array item after 300 attempts"
       end
     end
+
+    describe "the default strategy" do
+      it "doesn't generate values for optional properties as standard" do
+        schema = {
+          "type" => "object",
+          "properties" => {
+            "optional_field" => {
+              "type" => "string",
+            },
+          },
+        }
+
+        stub_out_randomness
+
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
+
+        expect(generator.payload).to eq({})
+      end
+    end
+
+    describe "the one-of-everything strategy" do
+      it "generates values for all optional properties" do
+        schema = {
+          "type" => "object",
+          "properties" => {
+            "optional_field" => {
+              "type" => "string",
+            },
+          },
+        }
+
+        stub_out_randomness
+
+        strategy = GovukSchemas::RandomSchemaGenerator::ONE_OF_EVERYTHING_STRATEGY
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema:, strategy:)
+
+        expect(generator.payload).to include(
+          "optional_field" => an_instance_of(String),
+        )
+      end
+
+      it "generates one item in every array" do
+        schema = {
+          "type" => "object",
+          "properties" => {
+            "list_a" => {
+              "type" => "array",
+              "items" => { "type" => "string" },
+              "minItems" => 0,
+            },
+            "list_b" => {
+              "type" => "array",
+              "items" => { "type" => "string" },
+              "maxItems" => 0,
+            },
+            "list_c" => {
+              "type" => "array",
+              "items" => { "type" => "string" },
+              "minItems" => 5,
+            },
+            "list_d" => {
+              "type" => "array",
+              "items" => { "type" => "string" },
+              "minItems" => 5,
+              "maxItems" => 5,
+            },
+          },
+        }
+
+        strategy = GovukSchemas::RandomSchemaGenerator::ONE_OF_EVERYTHING_STRATEGY
+        generator = GovukSchemas::RandomSchemaGenerator.new(schema:, strategy:)
+
+        expect(generator.payload).to include(
+          "list_a" => [an_instance_of(String)],
+          "list_b" => [an_instance_of(String)],
+          "list_c" => [an_instance_of(String)],
+          "list_d" => [an_instance_of(String)],
+        )
+      end
+    end
+
+    # For any given optional property, RandomSchemaGenerator uses
+    # RandomContentGenerator#bool to decide, randomly, whether to generate
+    # a value or not. (Therefore, if we're testing its behaviour in the case
+    # of optional properties, we need to control this variable.)
+    def stub_out_randomness
+      content_generator = GovukSchemas::RandomContentGenerator.new
+      allow(content_generator).to receive(:bool).and_return(false)
+      allow(GovukSchemas::RandomContentGenerator).to receive(:new)
+        .and_return(content_generator)
+    end
   end
 end

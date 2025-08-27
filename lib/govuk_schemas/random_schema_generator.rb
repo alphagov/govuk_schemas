@@ -10,10 +10,17 @@ module GovukSchemas
   #
   # @private
   class RandomSchemaGenerator
-    def initialize(schema:, seed: nil)
+    DEFAULT_MIN_ITEMS = 0
+    DEFAULT_MAX_ITEMS = 10
+
+    ONE_OF_EVERYTHING_STRATEGY = :one_of_everything
+    TOTALLY_RANDOM_STRATEGY = :totally_random
+
+    def initialize(schema:, seed: nil, strategy: nil)
       @schema = schema
       @random = Random.new(seed || Random.new_seed)
       @generator = RandomContentGenerator.new(random: @random)
+      @strategy = strategy || TOTALLY_RANDOM_STRATEGY
     end
 
     def payload
@@ -21,6 +28,10 @@ module GovukSchemas
     end
 
   private
+
+    def one_of_everything_strategy?
+      @strategy == ONE_OF_EVERYTHING_STRATEGY
+    end
 
     def generate_value(props)
       # TODO: #/definitions/nested_headers are recursively nested and can cause
@@ -94,11 +105,12 @@ module GovukSchemas
         # populate all of the keys in the hash. This isn't quite random, but I
         # haven't found a nice way yet to ensure there's at least n elements in
         # the hash.
-        should_generate_value = @generator.bool \
-          || subschema["required"].to_a.include?(attribute_name) \
-          || (one_of_sample["required"] || {}).to_a.include?(attribute_name) \
-          || (one_of_sample["properties"] || {}).keys.include?(attribute_name) \
-          || subschema["minProperties"] \
+        should_generate_value = one_of_everything_strategy? ||
+          @generator.bool ||
+          subschema["required"].to_a.include?(attribute_name) ||
+          (one_of_sample["required"] || {}).to_a.include?(attribute_name) ||
+          (one_of_sample["properties"] || {}).keys.include?(attribute_name) ||
+          subschema["minProperties"]
 
         next unless should_generate_value
 
@@ -109,9 +121,25 @@ module GovukSchemas
       document
     end
 
+    def min_items_for_array(array_properties)
+      if one_of_everything_strategy?
+        1
+      else
+        array_properties["minItems"] || DEFAULT_MIN_ITEMS
+      end
+    end
+
+    def max_items_for_array(array_properties)
+      if one_of_everything_strategy?
+        1
+      else
+        array_properties["maxItems"] || DEFAULT_MAX_ITEMS
+      end
+    end
+
     def generate_random_array(props)
-      min = props["minItems"] || 0
-      max = props["maxItems"] || 10
+      min = min_items_for_array(props)
+      max = max_items_for_array(props)
       unique = props["uniqueItems"] == true
       num_items = @random.rand(min..max)
       items = []

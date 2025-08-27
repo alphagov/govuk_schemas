@@ -31,10 +31,11 @@ module GovukSchemas
     #
     # @param [Hash]         schema  A JSON schema.
     # @param [Integer, nil] seed    A random number seed for deterministic results
+    # @param [Symbol] strategy    The generation strategy for RandomSchemaGenerator to use
     # @return [GovukSchemas::RandomExample]
-    def initialize(schema:, seed: nil)
+    def initialize(schema:, seed: nil, strategy: nil)
       @schema = schema
-      @random_generator = RandomSchemaGenerator.new(schema:, seed:)
+      @random_generator = RandomSchemaGenerator.new(schema:, seed:, strategy:)
     end
 
     # Returns a new `GovukSchemas::RandomExample` object.
@@ -52,12 +53,14 @@ module GovukSchemas
     #      # => {"base_path"=>"Test base path", "title"=>"dolor est...", "publishing_app"=>"elit"...}
     #
     # @param schema_key_value [Hash]
+    # @param [Integer] seed The seed for RandomSchemaGenerator's random functions
+    # @param [Symbol] strategy The generation strategy for RandomSchemaGenerator to use
     # @param [Block] the base payload is passed inton the block, with the block result then becoming
     #   the new payload. The new payload is then validated. (optional)
     # @return [GovukSchemas::RandomExample]
-    def self.for_schema(schema_key_value, &block)
+    def self.for_schema(seed: nil, strategy: nil, **schema_key_value, &block)
       schema = GovukSchemas::Schema.find(schema_key_value)
-      GovukSchemas::RandomExample.new(schema:).payload(&block)
+      GovukSchemas::RandomExample.new(schema:, seed:, strategy:).payload(&block)
     end
 
     # Return a content item merged with a hash and with the excluded fields removed.
