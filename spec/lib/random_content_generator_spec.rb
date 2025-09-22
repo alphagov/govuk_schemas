@@ -59,4 +59,14 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
       expect(response).to eq(url)
     end
   end
+
+  describe ".string_for_regex" do
+    it "generates a content block order item" do
+      pattern = "^addresses|contact_links|email_addresses|telephones.[a-z0-9]+(?:-[a-z0-9]+)*$"
+      random_content_generator = GovukSchemas::RandomContentGenerator.new
+      result = random_content_generator.string_for_regex(pattern)
+
+      expect(result).to match(/#{pattern}/)
+    end
+  end
 end
