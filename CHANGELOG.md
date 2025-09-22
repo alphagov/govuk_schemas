@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.1.1
+
+* Add a new regex generator for a content block order item [PR](https://github.com/alphagov/govuk_schemas/pull/170)
+
 ## 6.1.0
 
 * Introduce a "one of everything" strategy for RandomSchemaGenerator https://github.com/alphagov/govuk_schemas/pull/168

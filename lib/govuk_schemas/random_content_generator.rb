@@ -113,6 +113,8 @@ module GovukSchemas
         govuk_subdomain_url
       when '[a-z0-9\-_]'
         "#{hex}-#{hex}"
+      when "^addresses|contact_links|email_addresses|telephones.[a-z0-9]+(?:-[a-z0-9]+)*$"
+        content_block_order_item
       else
         raise <<~DOC
           Don't know how to generate random string for pattern #{pattern.inspect}
@@ -129,6 +131,14 @@ module GovukSchemas
     end
 
   private
+
+    def content_block_order_item
+      [
+        %w[addresses contact_links email_addresses telephones].sample,
+        ".",
+        Faker::Internet.slug(glue: "-"),
+      ].join
+    end
 
     def random_letter
       letters = ("a".."f").to_a
