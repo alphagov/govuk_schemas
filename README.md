@@ -22,6 +22,13 @@ Make sure you have `publishing-api` cloned in a sibling directory:
 bundle exec rake
 ```
 
+## Development
+
+In order to run the tests successfully you also need [publishing-api](https://github.com/alphagov/publishing-api) checked
+out into the same parent directory as govuk_schemas.
+
+The tests can then be run with `bundle exec rspec`.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](LICENCE).
