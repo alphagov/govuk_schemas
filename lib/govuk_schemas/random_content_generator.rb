@@ -41,7 +41,7 @@ module GovukSchemas
 
     # TODO: make this more random with query string, optional anchor.
     def uri
-      "#{Faker::Internet.url(path: base_path)}#{anchor}"
+      "https://#{domain_name}/#{base_path}#{anchor}"
     end
 
     def base_path

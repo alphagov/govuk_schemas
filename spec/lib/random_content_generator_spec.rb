@@ -25,18 +25,13 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
 
   describe ".uri" do
     it "generates a url" do
-      random_content_generator = GovukSchemas::RandomContentGenerator.new
-      url = "http://example.com"
-      base_path = "foo/bar"
-      anchor = "#foo"
+      response = GovukSchemas::RandomContentGenerator.new.uri
 
-      allow(Faker::Internet).to receive(:url).with(path: base_path) { url }
-      allow(random_content_generator).to receive(:base_path) { base_path }
-      allow(random_content_generator).to receive(:anchor) { "#foo" }
+      expect(response).to match(URI::DEFAULT_PARSER.make_regexp)
 
-      response = random_content_generator.uri
+      uri = URI.parse(response)
 
-      expect(response).to eq("#{url}#{anchor}")
+      expect(uri.scheme).to eq("https")
     end
   end
 
