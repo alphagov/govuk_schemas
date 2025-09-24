@@ -66,11 +66,11 @@ module GovukSchemas
       "##{hex}"
     end
 
-    def random_identifier(separator:)
+    def random_identifier(separator: "-")
       WORDS.sample(@random.rand(1..10), random: @random)
-        .join("-")
-        .gsub(/[^a-z0-9\-_]+/i, "-")
-        .gsub("-", separator)
+        .join(separator)
+        .gsub(/[^a-z0-9\-_]+/i, separator)
+        .downcase
     end
 
     def uuid

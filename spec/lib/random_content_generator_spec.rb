@@ -3,9 +3,16 @@ require "spec_helper"
 RSpec.describe GovukSchemas::RandomContentGenerator do
   describe ".random_identifier" do
     it "generates a string" do
-      string = GovukSchemas::RandomContentGenerator.new.random_identifier(separator: "_")
+      string = GovukSchemas::RandomContentGenerator.new.random_identifier
 
       expect(string).to be_a(String)
+      expect(string).to match(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    end
+
+    it "can accept a different separator" do
+      string = GovukSchemas::RandomContentGenerator.new.random_identifier(separator: "$")
+
+      expect(string).to match(/^[a-z0-9]+(?:\$[a-z0-9]+)*$/)
     end
   end
 
