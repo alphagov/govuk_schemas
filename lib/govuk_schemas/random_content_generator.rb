@@ -1,5 +1,3 @@
-require "faker"
-
 module GovukSchemas
   # @private
   class RandomContentGenerator
@@ -8,7 +6,6 @@ module GovukSchemas
 
     def initialize(random: Random.new)
       @random = random
-      Faker::Config.random = @random
     end
 
     def string_for_type(type)
