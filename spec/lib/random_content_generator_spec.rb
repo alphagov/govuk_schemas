@@ -37,18 +37,13 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
 
   describe ".govuk_subdomain_url" do
     it "generates a uri" do
-      random_content_generator = GovukSchemas::RandomContentGenerator.new
-      host = "http://foo.gov.uk"
-      base_path = "foo/bar"
-      url = "#{host}/#{base_path}"
+      response = GovukSchemas::RandomContentGenerator.new.govuk_subdomain_url
 
-      allow(Faker::Internet).to receive(:domain_name).with(subdomain: true, domain: "gov.uk") { host }
-      allow(random_content_generator).to receive(:base_path) { base_path }
-      allow(Faker::Internet).to receive(:url).with(host:, path: base_path) { url }
+      expect(response).to match(URI::DEFAULT_PARSER.make_regexp)
 
-      response = random_content_generator.govuk_subdomain_url
+      uri = URI.parse(response)
 
-      expect(response).to eq(url)
+      expect(uri.host&.end_with?(".gov.uk")).to be true
     end
   end
 
