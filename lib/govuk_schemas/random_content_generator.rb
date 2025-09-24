@@ -4,6 +4,7 @@ module GovukSchemas
   # @private
   class RandomContentGenerator
     WORDS = %w[Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut suscipit at mauris non bibendum. Ut ac massa est. Aenean tempor imperdiet leo vel interdum. Nam sagittis cursus sem ultricies scelerisque. Quisque porttitor risus vel risus finibus eu sollicitudin nisl aliquet. Sed sed lectus ac dolor molestie interdum. Nam molestie pellentesque purus ac vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse non tempor eros. Mauris eu orci hendrerit volutpat lorem in tristique libero. Duis a nibh nibh.].freeze
+    DOMAIN_SUFFIXES = %w[co.uk com].freeze
 
     def initialize(random: Random.new)
       @random = random
@@ -17,7 +18,7 @@ module GovukSchemas
       when "uri"
         uri
       when "email"
-        Faker::Internet.email
+        [username, domain_name].join("@")
       else
         raise <<~DOC
            Unsupported JSON schema type `#{type}`
@@ -131,6 +132,17 @@ module GovukSchemas
     end
 
   private
+
+    def username
+      WORDS.sample(random: @random).downcase
+    end
+
+    def domain_name
+      [
+        WORDS.sample(random: @random).downcase,
+        DOMAIN_SUFFIXES.sample(random: @random)
+      ].join(".")
+    end
 
     def content_block_order_item
       [

@@ -11,12 +11,9 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
 
   describe ".string_for_type" do
     it "generates an email address" do
-      email = "foo@example.com"
-      allow(Faker::Internet).to receive(:email) { email }
-
       response = GovukSchemas::RandomContentGenerator.new.string_for_type("email")
 
-      expect(response).to eq(email)
+      expect(response).to match(URI::MailTo::EMAIL_REGEXP)
     end
 
     it "raises an error if the type is not present" do
