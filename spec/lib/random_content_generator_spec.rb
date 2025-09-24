@@ -3,20 +3,24 @@ require "spec_helper"
 RSpec.describe GovukSchemas::RandomContentGenerator do
   describe ".random_identifier" do
     it "generates a string" do
-      string = GovukSchemas::RandomContentGenerator.new.random_identifier(separator: "_")
+      string = GovukSchemas::RandomContentGenerator.new.random_identifier
 
       expect(string).to be_a(String)
+      expect(string).to match(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    end
+
+    it "can accept a different separator" do
+      string = GovukSchemas::RandomContentGenerator.new.random_identifier(separator: "$")
+
+      expect(string).to match(/^[a-z0-9]+(?:\$[a-z0-9]+)*$/)
     end
   end
 
   describe ".string_for_type" do
     it "generates an email address" do
-      email = "foo@example.com"
-      allow(Faker::Internet).to receive(:email) { email }
-
       response = GovukSchemas::RandomContentGenerator.new.string_for_type("email")
 
-      expect(response).to eq(email)
+      expect(response).to match(URI::MailTo::EMAIL_REGEXP)
     end
 
     it "raises an error if the type is not present" do
@@ -28,35 +32,25 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
 
   describe ".uri" do
     it "generates a url" do
-      random_content_generator = GovukSchemas::RandomContentGenerator.new
-      url = "http://example.com"
-      base_path = "foo/bar"
-      anchor = "#foo"
+      response = GovukSchemas::RandomContentGenerator.new.uri
 
-      allow(Faker::Internet).to receive(:url).with(path: base_path) { url }
-      allow(random_content_generator).to receive(:base_path) { base_path }
-      allow(random_content_generator).to receive(:anchor) { "#foo" }
+      expect(response).to match(URI::DEFAULT_PARSER.make_regexp)
 
-      response = random_content_generator.uri
+      uri = URI.parse(response)
 
-      expect(response).to eq("#{url}#{anchor}")
+      expect(uri.scheme).to eq("https")
     end
   end
 
   describe ".govuk_subdomain_url" do
     it "generates a uri" do
-      random_content_generator = GovukSchemas::RandomContentGenerator.new
-      host = "http://foo.gov.uk"
-      base_path = "foo/bar"
-      url = "#{host}/#{base_path}"
+      response = GovukSchemas::RandomContentGenerator.new.govuk_subdomain_url
 
-      allow(Faker::Internet).to receive(:domain_name).with(subdomain: true, domain: "gov.uk") { host }
-      allow(random_content_generator).to receive(:base_path) { base_path }
-      allow(Faker::Internet).to receive(:url).with(host:, path: base_path) { url }
+      expect(response).to match(URI::DEFAULT_PARSER.make_regexp)
 
-      response = random_content_generator.govuk_subdomain_url
+      uri = URI.parse(response)
 
-      expect(response).to eq(url)
+      expect(uri.host&.end_with?(".gov.uk")).to be true
     end
   end
 

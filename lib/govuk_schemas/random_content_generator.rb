@@ -1,13 +1,11 @@
-require "faker"
-
 module GovukSchemas
   # @private
   class RandomContentGenerator
-    WORDS = %w[Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut suscipit at mauris non bibendum. Ut ac massa est. Aenean tempor imperdiet leo vel interdum. Nam sagittis cursus sem ultricies scelerisque. Quisque porttitor risus vel risus finibus eu sollicitudin nisl aliquet. Sed sed lectus ac dolor molestie interdum. Nam molestie pellentesque purus ac vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse non tempor eros. Mauris eu orci hendrerit volutpat lorem in tristique libero. Duis a nibh nibh.].freeze
+    WORDS = %w[Lorem ipsum dolor sit amet consectetur adipiscing elit Ut suscipit at mauris non bibendum Ut ac massa est Aenean tempor imperdiet leo vel interdum Nam sagittis cursus sem ultricies scelerisque Quisque porttitor risus vel risus finibus eu sollicitudin nisl aliquet Sed sed lectus ac dolor molestie interdum Nam molestie pellentesque purus ac vestibulum Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas Suspendisse non tempor eros Mauris eu orci hendrerit volutpat lorem in tristique libero Duis a nibh nibh].freeze
+    DOMAIN_SUFFIXES = %w[co.uk com].freeze
 
     def initialize(random: Random.new)
       @random = random
-      Faker::Config.random = @random
     end
 
     def string_for_type(type)
@@ -17,7 +15,7 @@ module GovukSchemas
       when "uri"
         uri
       when "email"
-        Faker::Internet.email
+        [username, domain_name].join("@")
       else
         raise <<~DOC
            Unsupported JSON schema type `#{type}`
@@ -38,9 +36,9 @@ module GovukSchemas
       (arbitrary_time + @random.rand(0..500_000_000)).iso8601
     end
 
-    # TODO: make this more random with query string, optional anchor.
-    def uri
-      "#{Faker::Internet.url(path: base_path)}#{anchor}"
+    # TODO: make this more random with query string
+    def uri(domain_suffix: nil, include_anchor: true)
+      "https://#{domain_name(domain_suffix:)}#{base_path}#{include_anchor ? anchor : nil}"
     end
 
     def base_path
@@ -48,8 +46,7 @@ module GovukSchemas
     end
 
     def govuk_subdomain_url
-      host = Faker::Internet.domain_name(subdomain: true, domain: "gov.uk")
-      Faker::Internet.url(host:, path: base_path)
+      uri(domain_suffix: "gov.uk", include_anchor: false)
     end
 
     def string(minimum_chars = nil, maximum_chars = nil)
@@ -66,11 +63,11 @@ module GovukSchemas
       "##{hex}"
     end
 
-    def random_identifier(separator:)
+    def random_identifier(separator: "-")
       WORDS.sample(@random.rand(1..10), random: @random)
-        .join("-")
-        .gsub(/[^a-z0-9\-_]+/i, "-")
-        .gsub("-", separator)
+        .join(separator)
+        .gsub(/[^a-z0-9\-_]+/i, separator)
+        .downcase
     end
 
     def uuid
@@ -132,11 +129,22 @@ module GovukSchemas
 
   private
 
+    def username
+      WORDS.sample(random: @random).downcase
+    end
+
+    def domain_name(domain_suffix: nil)
+      [
+        WORDS.sample(random: @random).downcase,
+        domain_suffix || DOMAIN_SUFFIXES.sample(random: @random),
+      ].join(".")
+    end
+
     def content_block_order_item
       [
         %w[addresses contact_links email_addresses telephones].sample,
         ".",
-        Faker::Internet.slug(glue: "-"),
+        random_identifier,
       ].join
     end
 

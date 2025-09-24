@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0
+
+* Remove Faker dependency [PR](https://github.com/alphagov/govuk_schemas/pull/172)
+
 ## 6.1.1
 
 * Add a new regex generator for a content block order item [PR](https://github.com/alphagov/govuk_schemas/pull/170)
