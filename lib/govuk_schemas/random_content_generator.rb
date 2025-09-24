@@ -147,7 +147,7 @@ module GovukSchemas
       [
         %w[addresses contact_links email_addresses telephones].sample,
         ".",
-        Faker::Internet.slug(glue: "-"),
+        random_identifier,
       ].join
     end
 
