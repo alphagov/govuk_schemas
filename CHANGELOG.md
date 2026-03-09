@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.3
+
+* Update dependencies
+
 ## 6.2.2
 
 * Update dependencies
