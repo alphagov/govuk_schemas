@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.0
+
+* Drop support for Ruby 3.2
+
 ## 6.2.3
 
 * Update dependencies
