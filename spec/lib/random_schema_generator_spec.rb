@@ -111,6 +111,43 @@ RSpec.describe GovukSchemas::RandomSchemaGenerator do
       expect(generator.payload.keys).to include("my_field")
     end
 
+    it "handles base paths using allOf property" do
+      schema = {
+        "type" => "object",
+        "required" => %w[base_path],
+        "properties" => {
+          "base_path" => { "$ref" => "#/definitions/absolute_path" },
+        },
+        "definitions" => {
+          "absolute_path" => {
+            "allOf" => [
+              {
+                "type" => "string",
+                "pattern" => "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?$",
+                "description" => "A path only. Query string and/or fragment are not allowed.",
+              },
+              {
+                "type" => "string",
+                "pattern" => "^/.{0,511}$",
+                "description" => "A path only. Query string and/or fragment are not allowed.",
+              },
+            ],
+          },
+        },
+      }
+
+      content_generator = GovukSchemas::RandomContentGenerator.new
+      allow(content_generator)
+        .to receive(:string_for_regex)
+        .with("^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?$")
+        .and_return("/valid/content")
+      allow(GovukSchemas::RandomContentGenerator).to receive(:new)
+        .and_return(content_generator)
+      generator = GovukSchemas::RandomSchemaGenerator.new(schema:)
+
+      expect(generator.payload).to include("base_path" => "/valid/content")
+    end
+
     describe "unique arrays" do
       it "handles arrays that require unique items" do
         schema = {
