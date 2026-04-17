@@ -55,9 +55,19 @@ RSpec.describe GovukSchemas::RandomContentGenerator do
   end
 
   describe ".string_for_regex" do
+    let(:random_content_generator) { GovukSchemas::RandomContentGenerator.new }
+
+    it "generates a valid base path" do
+      input_pattern = "^/(([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})+(/([a-zA-Z0-9._~!$&'()*+,;=:@-]|%[0-9a-fA-F]{2})*)*)?$"
+      additional_required_pattern = "^/.{0,511}$"
+      result = random_content_generator.string_for_regex(input_pattern)
+
+      expect(result).to match(/#{input_pattern}/)
+      expect(result).to match(/#{additional_required_pattern}/)
+    end
+
     it "generates a content block order item" do
       pattern = "^addresses|contact_links|email_addresses|telephones.[a-z0-9]+(?:-[a-z0-9]+)*$"
-      random_content_generator = GovukSchemas::RandomContentGenerator.new
       result = random_content_generator.string_for_regex(pattern)
 
       expect(result).to match(/#{pattern}/)

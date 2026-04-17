@@ -70,6 +70,10 @@ module GovukSchemas
         # validate against the other schemas in `props['oneOf']`.
         generate_value(props["oneOf"].sample(random: @random))
       elsif props["allOf"]
+        if props["$ref"] == "#/definitions/absolute_path"
+          return generate_random_string(props["allOf"].first)
+        end
+
         props["allOf"].each_with_object({}) do |subschema, hash|
           val = generate_value(subschema)
           hash.merge(val)
