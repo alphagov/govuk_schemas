@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.2
+
+* Update dependencies
+
 ## 6.3.1
 
 * Update logic for identifying path definitions
